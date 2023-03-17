@@ -11,18 +11,24 @@ class AppComponent {
 //Images
   // Logo
   static String introLogo = "img/introLogo.png";
+  static String lineArrow = "img/lineArrow.png";
+  static String logo = "img/logo.png";
+
   static String login = "img/login/login.png";
   static String singUp = "img/login/singUp.png";
-  static String logo = "img/logo.png";
   static String singlLogo = "img/singlLogo.png";
-  static String profile = "img/home/profile.png";
-  static String lineArrow = "img/lineArrow.png";
+  static String otp = "img/login/otp.png";
+
   static String introOne = "img/introScreen/introOne.png";
   static String groupOne = "img/introScreen/groupOne.png";
+
+  static String profile = "img/home/profile.png";
   static String home = "img/home/home.png";
   static String cancel = "img/home/cancel.png";
   static String photo = "img/home/photo.png";
   static String gallery = "img/home/gallery.png";
   static String prescription = "img/home/prescription.png";
   static String arrowRight = "img/home/arrowRight.png";
+  static String tickmark = "img/home/tickmark.png";
+  static String flash = "img/home/flash.png";
 }
