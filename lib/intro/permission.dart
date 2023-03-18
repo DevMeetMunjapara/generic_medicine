@@ -94,8 +94,10 @@ class _PermissionState extends State<Permission> {
             color: Colors.white,
             child: Padding(
                 padding: EdgeInsets.fromLTRB(20.h, 15.h, 20.h, 10.h),
-                child:
-                    FullButton(title: "Agree and Continue", onPressed: () {}))),
+                child: FullButton(
+                    title: "Agree and Continue",
+                    onPressed: () {},
+                    mycolors: AppComponent.Green))),
       ),
     );
   }

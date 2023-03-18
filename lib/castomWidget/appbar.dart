@@ -4,11 +4,8 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:generic_medicine/castomWidget/appComponent.dart';
 
-class MyAppBar extends StatelessWidget {
-  MyAppBar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
+class MyAppBar {
+  AppBar myapp() {
     return AppBar(
       elevation: 3,
       toolbarHeight: 100.h,
@@ -16,7 +13,7 @@ class MyAppBar extends StatelessWidget {
       title: Container(
         //color: Colors.amber,
         child: Padding(
-            padding: EdgeInsets.only(top: 30.h, left: 10.h),
+            padding: EdgeInsets.only(top: 30.h, left: 10.h, bottom: 15.h),
             child: Row(
               children: [
                 Image.asset(AppComponent.singlLogo),

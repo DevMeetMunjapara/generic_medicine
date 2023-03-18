@@ -7,6 +7,7 @@ class AppComponent {
   static Color Blue = Color.fromARGB(255, 0, 139, 197);
   static Color Green = Color.fromARGB(255, 1, 149, 98);
   static Color Orange = Color.fromARGB(255, 234, 132, 35);
+  static Color red = Color.fromARGB(255, 156, 23, 21);
 
 //Images
   // Logo
@@ -22,6 +23,7 @@ class AppComponent {
   static String introOne = "img/introScreen/introOne.png";
   static String groupOne = "img/introScreen/groupOne.png";
 
+  static String india = "img/home/india.png";
   static String profile = "img/home/profile.png";
   static String home = "img/home/home.png";
   static String cancel = "img/home/cancel.png";
@@ -31,4 +33,11 @@ class AppComponent {
   static String arrowRight = "img/home/arrowRight.png";
   static String tickmark = "img/home/tickmark.png";
   static String flash = "img/home/flash.png";
+  static String taskOne = "img/home/taskOne.png";
+  static String taskTwo = "img/home/taskTwo.png";
+  static String taskThree = "img/home/taskThree.png";
+  static String homeAddress = "img/home/homeAddress.png";
+  static String process = "img/home/process.png";
+  static String doctor = "img/home/doctor.png";
+  static String whatsapp = "img/home/whatsapp.png";
 }

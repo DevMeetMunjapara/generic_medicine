@@ -175,7 +175,10 @@ class _SingUpState extends State<SingUp> {
                   SizedBox(
                     height: 20.h,
                   ),
-                  FullButton(title: "Sing Up", onPressed: () {}),
+                  FullButton(
+                      title: "Sing Up",
+                      onPressed: () {},
+                      mycolors: AppComponent.Green),
                   SizedBox(
                     height: 20.h,
                   ),

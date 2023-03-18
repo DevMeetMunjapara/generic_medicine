@@ -9,11 +9,13 @@ class FullButton extends StatelessWidget {
   late final String title;
   late final VoidCallback onPressed;
   late final bool loading;
+  late final Color mycolors;
 
   FullButton({
     super.key,
     required this.title,
     required this.onPressed,
+    required this.mycolors,
     this.loading = false,
   });
 
@@ -24,7 +26,7 @@ class FullButton extends StatelessWidget {
       height: 50.h,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-            backgroundColor: AppComponent.Green,
+            backgroundColor: mycolors,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(2.85))),
         onPressed: onPressed,
@@ -36,7 +38,7 @@ class FullButton extends StatelessWidget {
                 )
               : Text(
                   title,
-                  style: TextStyle(fontSize: 20.h),
+                  style: TextStyle(fontSize: 20.sp),
                 ),
         ),
       ),

@@ -18,9 +18,9 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: MyAppBar().myapp(),
         body: Column(
           children: [
-            MyAppBar(),
             SizedBox(
               height: 10.h,
             ),
@@ -64,6 +64,7 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
                     ),
                     FullButton(
                         title: "Upload Prescription",
+                        mycolors: AppComponent.Green,
                         onPressed: () {
                           {
                             showModalBottomSheet(

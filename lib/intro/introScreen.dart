@@ -84,7 +84,10 @@ class _InteroScreenState extends State<InteroScreen> {
               ),
               Padding(
                   padding: EdgeInsets.only(left: 20, right: 20),
-                  child: FullButton(title: "Continue", onPressed: () {})),
+                  child: FullButton(
+                      title: "Continue",
+                      onPressed: () {},
+                      mycolors: AppComponent.Green)),
               SizedBox(
                 height: 20.sp,
               ),

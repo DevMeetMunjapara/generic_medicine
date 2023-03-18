@@ -83,7 +83,10 @@ class _OTPState extends State<OTP> {
                   SizedBox(
                     height: 30.h,
                   ),
-                  FullButton(title: "Verified your OTP", onPressed: () {}),
+                  FullButton(
+                      title: "Verified your OTP",
+                      onPressed: () {},
+                      mycolors: AppComponent.Green),
                   SizedBox(
                     height: 130.h,
                   ),

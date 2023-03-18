@@ -114,7 +114,11 @@ class _LoginState extends State<Login> {
                   SizedBox(
                     height: 20.h,
                   ),
-                  FullButton(title: "Get verification code", onPressed: () {}),
+                  FullButton(
+                    title: "Get verification code",
+                    onPressed: () {},
+                    mycolors: AppComponent.Green,
+                  ),
                   SizedBox(
                     height: 20.h,
                   ),

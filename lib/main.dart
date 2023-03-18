@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:generic_medicine/castomWidget/appComponent.dart';
+import 'package:generic_medicine/castomWidget/howToProcess.dart';
+import 'package:generic_medicine/castomWidget/locationAdd.dart';
 import 'package:generic_medicine/castomWidget/process.dart';
+import 'package:generic_medicine/castomWidget/profile.dart';
+import 'package:generic_medicine/castomWidget/saveInfo.dart';
 import 'package:generic_medicine/intro/introScreen.dart';
 import 'package:generic_medicine/intro/logo.dart';
 import 'package:generic_medicine/intro/permission.dart';
@@ -34,7 +38,7 @@ class MyApp extends StatelessWidget {
             fontFamily: "DMSans",
           ),
           routes: {
-            "/": (context) => Process(),
+            "/": (context) => SaveInfo(),
           },
         );
       },
