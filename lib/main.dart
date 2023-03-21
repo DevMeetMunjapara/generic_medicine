@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:generic_medicine/castomWidget/appComponent.dart';
@@ -6,6 +7,7 @@ import 'package:generic_medicine/castomWidget/locationAdd.dart';
 import 'package:generic_medicine/castomWidget/process.dart';
 import 'package:generic_medicine/castomWidget/profile.dart';
 import 'package:generic_medicine/castomWidget/saveInfo.dart';
+import 'package:generic_medicine/castomWidget/widget.dart';
 import 'package:generic_medicine/intro/introScreen.dart';
 import 'package:generic_medicine/intro/logo.dart';
 import 'package:generic_medicine/intro/permission.dart';
@@ -14,7 +16,9 @@ import 'package:generic_medicine/login/otp.dart';
 import 'package:generic_medicine/login/singUp.dart';
 import 'package:generic_medicine/uploadPrescription.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -24,10 +28,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      // var w = MediaQuery.of(context).size.width;
-      // var h = MediaQuery.of(context).size.height;
-      // print("-------$w");
-      // print("-------$h");
       designSize: Size(430, 960),
       minTextAdapt: true,
       builder: (context, child) {
@@ -38,7 +38,9 @@ class MyApp extends StatelessWidget {
             fontFamily: "DMSans",
           ),
           routes: {
-            "/": (context) => SaveInfo(),
+            "/": (context) => SingUp(),
+            AppComponent.loginPage: (context) => Login(),
+            AppComponent.singUpPage: (context) => SingUp(),
           },
         );
       },

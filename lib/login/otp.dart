@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -5,16 +8,31 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:generic_medicine/castomWidget/appComponent.dart';
 import 'package:generic_medicine/castomWidget/fullButtom.dart';
+import 'package:generic_medicine/uploadPrescription.dart';
 import 'package:pinput/pinput.dart';
 
 class OTP extends StatefulWidget {
-  const OTP({super.key});
+  final String vereficationId;
+  final bool isSingUp;
+  String? name;
+  String? email;
+  String? number;
+
+  OTP({
+    super.key,
+    required this.vereficationId,
+    required this.isSingUp,
+    this.email,
+    this.name,
+    this.number,
+  });
 
   @override
   State<OTP> createState() => _OTPState();
 }
 
 class _OTPState extends State<OTP> {
+  TextEditingController otpConttrolor = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -78,6 +96,7 @@ class _OTPState extends State<OTP> {
                     height: 30.h,
                   ),
                   Pinput(
+                    controller: otpConttrolor,
                     length: 6,
                   ),
                   SizedBox(
@@ -85,7 +104,29 @@ class _OTPState extends State<OTP> {
                   ),
                   FullButton(
                       title: "Verified your OTP",
-                      onPressed: () {},
+                      onPressed: () async {
+                        final crendital = PhoneAuthProvider.credential(
+                            verificationId: widget.vereficationId,
+                            smsCode: otpConttrolor.text);
+                        try {
+                          await FirebaseAuth.instance
+                              .signInWithCredential(crendital);
+                          FirebaseFirestore.instance
+                              .collection("allUser")
+                              .doc("+91${widget.number}")
+                              .set({
+                            "name": widget.name,
+                            "email": widget.email,
+                            "number": widget.number,
+                          });
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => UploadPrescription()));
+                        } catch (e) {
+                          print(e);
+                        }
+                      },
                       mycolors: AppComponent.Green),
                   SizedBox(
                     height: 130.h,

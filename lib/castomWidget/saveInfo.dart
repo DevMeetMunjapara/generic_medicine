@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:generic_medicine/castomWidget/appComponent.dart';
 import 'package:generic_medicine/castomWidget/appbar.dart';
+import 'package:generic_medicine/castomWidget/fullButtom.dart';
 
 class SaveInfo extends StatefulWidget {
   const SaveInfo({super.key});
@@ -13,6 +16,14 @@ class SaveInfo extends StatefulWidget {
 }
 
 class _SaveInfoState extends State<SaveInfo> {
+  GlobalKey<FormState> _form = GlobalKey<FormState>();
+  TextEditingController _name = TextEditingController();
+  TextEditingController _number = TextEditingController();
+  TextEditingController _email = TextEditingController();
+  TextEditingController _city = TextEditingController();
+  TextEditingController _country = TextEditingController();
+  bool isWhatsapp = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -56,7 +67,11 @@ class _SaveInfoState extends State<SaveInfo> {
                 ],
               ),
             ),
+            SizedBox(
+              height: 10.h,
+            ),
             Form(
+              key: _form,
               child: Expanded(
                   child: Container(
                 color: Colors.white,
@@ -65,11 +80,11 @@ class _SaveInfoState extends State<SaveInfo> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: EdgeInsets.fromLTRB(30.h, 20.h, 30.h, 0.h),
+                      padding: EdgeInsets.fromLTRB(30.h, 30.h, 30.h, 0.h),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          form("Full name"),
+                          form("Full name", _name, "Name"),
                           SizedBox(
                             height: 10.h,
                           ),
@@ -81,6 +96,7 @@ class _SaveInfoState extends State<SaveInfo> {
                                 color: Color.fromARGB(255, 139, 139, 139)),
                           ),
                           TextFormField(
+                            controller: _number,
                             cursorColor: AppComponent.Green,
                             style: TextStyle(fontWeight: FontWeight.bold),
                             decoration: InputDecoration(
@@ -92,7 +108,11 @@ class _SaveInfoState extends State<SaveInfo> {
                                     SizedBox(
                                       width: 10.w,
                                     ),
-                                    Text("+ 91"),
+                                    Text(
+                                      "+ 91",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -101,6 +121,14 @@ class _SaveInfoState extends State<SaveInfo> {
                                     BorderSide(color: AppComponent.Green),
                               ),
                             ),
+                            validator: (value) {
+                              if (value == "") {
+                                return "Enter Mobile Number";
+                              }
+                              if (value!.length != 10) {
+                                return 'Only 10 digit number valid';
+                              }
+                            },
                           ),
                           SizedBox(
                             height: 10.h,
@@ -113,12 +141,16 @@ class _SaveInfoState extends State<SaveInfo> {
                       child: Row(
                         children: [
                           Transform.scale(
-                            scale: 1.3,
+                            scale: 1.2,
                             child: Checkbox(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(6.sp)),
-                                value: false,
-                                onChanged: (value) {}),
+                                value: isWhatsapp,
+                                onChanged: (value) {
+                                  setState(() {
+                                    isWhatsapp = value!;
+                                  });
+                                }),
                           ),
                           Text(
                             "Will be used in",
@@ -136,15 +168,15 @@ class _SaveInfoState extends State<SaveInfo> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          form("Email"),
+                          form("Email", _email, "Email ID", email: true),
                           SizedBox(
                             height: 10.h,
                           ),
-                          form("City"),
+                          form("City", _city, "City"),
                           SizedBox(
                             height: 10.h,
                           ),
-                          form("Country"),
+                          form("Country", _country, "Country"),
                           SizedBox(
                             height: 10.h,
                           ),
@@ -157,11 +189,22 @@ class _SaveInfoState extends State<SaveInfo> {
             )
           ],
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: Padding(
+          padding: EdgeInsets.fromLTRB(30.h, 0.h, 30.h, 30.h),
+          child: FullButton(
+              title: "Save & Continue",
+              onPressed: () {
+                if (_form.currentState!.validate()) {}
+              },
+              mycolors: AppComponent.Green),
+        ),
       ),
     );
   }
 
-  Widget form(String title) {
+  Widget form(String title, TextEditingController myController, String error,
+      {bool email = false}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -172,15 +215,36 @@ class _SaveInfoState extends State<SaveInfo> {
               fontWeight: FontWeight.w500,
               color: Color.fromARGB(255, 139, 139, 139)),
         ),
-        TextFormField(
-          cursorColor: AppComponent.Green,
-          style: TextStyle(fontWeight: FontWeight.bold),
-          decoration: InputDecoration(
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: AppComponent.Green),
+        // SizedBox(
+        //   height: 10.h,
+        // ),
+        SizedBox(
+          height: 50.h,
+          child: TextFormField(
+            controller: myController,
+            keyboardType: TextInputType.name,
+            cursorColor: AppComponent.Green,
+            style: TextStyle(fontWeight: FontWeight.bold),
+            decoration: InputDecoration(
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: AppComponent.Green),
+              ),
             ),
+            validator: (value) {
+              if (value == "") {
+                return "Enter Your $error";
+              }
+              if (email == true) {
+                if (value!.isNotEmpty && !AppComponent.regex.hasMatch(value)) {
+                  return "Enter a valid email address like @";
+                }
+              }
+            },
           ),
-        )
+        ),
+        SizedBox(
+          height: 0.h,
+        ),
       ],
     );
   }
