@@ -200,11 +200,14 @@ class _LoginState extends State<Login> {
                                               color: Colors.red,
                                               borderRadius:
                                                   BorderRadius.circular(20)),
-                                          child: Text(
-                                            "Please Raregation Your Mobile Number",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20.sp),
+                                          child: Center(
+                                            child: Text(
+                                              "Please SingUp or Registration Now",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20.sp),
+                                            ),
                                           ),
                                         )));
                                 print("SingUp Now");

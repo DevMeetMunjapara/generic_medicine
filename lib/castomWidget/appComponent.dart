@@ -42,6 +42,7 @@ class AppComponent {
   static String doctor = "img/home/doctor.png";
   static String whatsapp = "img/home/whatsapp.png";
   static String internet = "img/home/Internet.png";
+  static String valid = "img/home/valid.png";
 
   static const String loginPage = "/loginPage";
   static const String singUpPage = "/singUpPage";

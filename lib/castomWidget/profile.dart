@@ -3,7 +3,10 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:generic_medicine/castomWidget/appComponent.dart';
+import 'package:generic_medicine/castomWidget/appbar.dart';
 import 'package:generic_medicine/castomWidget/fullButtom.dart';
+import 'package:generic_medicine/castomWidget/locationAdd.dart';
+import 'package:generic_medicine/castomWidget/saveInfo.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -17,35 +20,7 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          toolbarHeight: 100.h,
-          backgroundColor: Colors.white,
-          title: Container(
-            //color: Colors.amber,
-            child: Padding(
-                padding: EdgeInsets.only(top: 40.h),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                        radius: 25.sp,
-                        backgroundColor: AppComponent.White,
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Image.asset(AppComponent.lineArrow),
-                        )),
-                    SizedBox(
-                      width: 15.h,
-                    ),
-                    Text(
-                      "My Account setting",
-                      style: TextStyle(
-                          color: AppComponent.NevyBlue, fontSize: 24.sp),
-                    ),
-                  ],
-                )),
-          ),
-        ),
+        appBar: MyAppBar().myappWithTitel(context, "My Account setting"),
         body: Column(
           children: [
             SizedBox(
@@ -75,7 +50,12 @@ class _ProfileState extends State<Profile> {
                               fontSize: 20.sp, fontWeight: FontWeight.bold),
                         ),
                         TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SaveInfo()));
+                            },
                             child: Text(
                               "EDIT",
                               style: TextStyle(
@@ -144,15 +124,23 @@ class _ProfileState extends State<Profile> {
                   SizedBox(
                     height: 20.h,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      box("My Address", "Check your address and edit here"),
-                      Icon(
-                        Icons.keyboard_arrow_right,
-                        size: 40.sp,
-                      )
-                    ],
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LocationAdd()));
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        box("My Address", "Check your address and edit here"),
+                        Icon(
+                          Icons.keyboard_arrow_right,
+                          size: 40.sp,
+                        )
+                      ],
+                    ),
                   ),
                   Divider(
                     thickness: 1.5.sp,

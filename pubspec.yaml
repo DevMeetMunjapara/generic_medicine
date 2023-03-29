@@ -44,6 +44,11 @@ dependencies:
   cloud_firestore: ^4.4.5
   internet_connection_checker: ^1.0.0+1
   awesome_snackbar_content: ^0.1.2
+  image_picker: ^0.8.7
+  insta_image_viewer: ^1.0.2
+  firebase_storage: ^11.0.16
+  photo_selector: ^0.0.1
+
 
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:generic_medicine/castomWidget/appComponent.dart';
 import 'package:generic_medicine/castomWidget/appbar.dart';
 import 'package:generic_medicine/castomWidget/fullButtom.dart';
+import 'package:generic_medicine/uploadPrescription.dart';
 
 class LocationAdd extends StatefulWidget {
   const LocationAdd({super.key});
@@ -17,11 +19,50 @@ class _LocationAddState extends State<LocationAdd> {
   bool isSelected1 = true;
   bool isSelected2 = false;
   bool isSelected3 = false;
+  TextEditingController _pincode = TextEditingController();
+  TextEditingController _folorNumber = TextEditingController();
+  TextEditingController _recipientName = TextEditingController();
+  TextEditingController _phoneNumber = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var userInfo = FirebaseFirestore.instance
+        .collection("allUser")
+        .doc(userNumber)
+        .get()
+        .then((value) => {
+              setState(() {
+                print("-------" + value["address"]["folorNumber"].toString());
+                _pincode.text = value["address"]["pincode"].toString();
+                _folorNumber.text = value["address"]["folorNumber"].toString();
+                _recipientName.text =
+                    value["address"]["recipientName"].toString();
+                _phoneNumber.text = value["address"]["phoneNumber"].toString();
+                if (value["address"]["type"] == "home") {
+                  isSelected1 = true;
+                  isSelected2 = false;
+                  isSelected3 = false;
+                }
+                if (value["address"]["type"] == "office") {
+                  isSelected1 = false;
+                  isSelected2 = true;
+                  isSelected3 = false;
+                }
+                if (value["address"]["type"] == "other") {
+                  isSelected1 = false;
+                  isSelected2 = false;
+                  isSelected3 = true;
+                }
+              })
+            });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: MyAppBar().myapp(),
+        appBar: MyAppBar().myapp(context),
         body: Column(
           children: [
             Padding(
@@ -51,8 +92,9 @@ class _LocationAddState extends State<LocationAdd> {
                         ),
                       ),
                       TextFormField(
+                        controller: _pincode,
                         cursorColor: AppComponent.Green,
-                        style: TextStyle(color: AppComponent.Green),
+                        style: TextStyle(fontWeight: FontWeight.bold),
                         decoration: InputDecoration(
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: AppComponent.Green),
@@ -69,8 +111,9 @@ class _LocationAddState extends State<LocationAdd> {
                             fontSize: 18.sp),
                       ),
                       TextFormField(
+                        controller: _folorNumber,
                         cursorColor: AppComponent.Green,
-                        style: TextStyle(color: AppComponent.Green),
+                        style: TextStyle(fontWeight: FontWeight.bold),
                         decoration: InputDecoration(
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: AppComponent.Green),
@@ -87,8 +130,9 @@ class _LocationAddState extends State<LocationAdd> {
                             fontSize: 18.sp),
                       ),
                       TextFormField(
+                        controller: _recipientName,
                         cursorColor: AppComponent.Green,
-                        style: TextStyle(color: AppComponent.Green),
+                        style: TextStyle(fontWeight: FontWeight.bold),
                         decoration: InputDecoration(
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: AppComponent.Green),
@@ -105,8 +149,9 @@ class _LocationAddState extends State<LocationAdd> {
                             fontSize: 18.sp),
                       ),
                       TextFormField(
+                        controller: _phoneNumber,
                         cursorColor: AppComponent.Green,
-                        style: TextStyle(color: AppComponent.Green),
+                        style: TextStyle(fontWeight: FontWeight.bold),
                         decoration: InputDecoration(
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: AppComponent.Green),

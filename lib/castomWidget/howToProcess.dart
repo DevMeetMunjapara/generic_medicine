@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -5,6 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:generic_medicine/castomWidget/appComponent.dart';
 import 'package:generic_medicine/castomWidget/appbar.dart';
 import 'package:generic_medicine/castomWidget/fullButtom.dart';
+import 'package:generic_medicine/castomWidget/locationAdd.dart';
+import 'package:generic_medicine/uploadPrescription.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HowToProcess extends StatefulWidget {
@@ -15,12 +18,30 @@ class HowToProcess extends StatefulWidget {
 }
 
 class _HowToProcessState extends State<HowToProcess> {
+  TextEditingController _folorNumber = TextEditingController();
+  TextEditingController _type = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var userInfo = FirebaseFirestore.instance
+        .collection("allUser")
+        .doc(userNumber)
+        .get()
+        .then((value) => {
+              setState(() {
+                _folorNumber.text = value["address"]["folorNumber"].toString();
+                _type.text = value["address"]["type"].toString();
+              })
+            });
+  }
+
   PageController pageController = PageController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: MyAppBar().myapp(),
+        appBar: MyAppBar().myapp(context),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -257,20 +278,28 @@ class _HowToProcessState extends State<HowToProcess> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Delivering to home",
+                            "Delivering to ${_type.text}",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20.sp),
                           ),
-                          Text("Shantivan Society, Signet Mall Near...")
+                          Text(_folorNumber.text)
                         ],
                       ),
                     ),
-                    Text(
-                      "Change",
-                      style: TextStyle(
-                          color: AppComponent.Green,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.sp),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LocationAdd()));
+                      },
+                      child: Text(
+                        "Change",
+                        style: TextStyle(
+                            color: AppComponent.Green,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.sp),
+                      ),
                     )
                   ],
                 ),

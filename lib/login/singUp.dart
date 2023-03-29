@@ -71,7 +71,7 @@ class _SingUpState extends State<SingUp> {
                   borderRadius: BorderRadius.circular(20)),
               child: Center(
                 child: Text(
-                  "You already have an account || Login Now",
+                  "You already have an account | Login Now",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18.sp,
@@ -318,6 +318,7 @@ class _SingUpState extends State<SingUp> {
                       ),
                       FullButton(
                           title: "Sing Up",
+                          loading: loading,
                           onPressed: () {
                             if (_form.currentState!.validate()) {
                               cilickButtion(

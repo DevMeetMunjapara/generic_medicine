@@ -33,6 +33,7 @@ class OTP extends StatefulWidget {
 
 class _OTPState extends State<OTP> {
   TextEditingController otpConttrolor = TextEditingController();
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -104,28 +105,46 @@ class _OTPState extends State<OTP> {
                   ),
                   FullButton(
                       title: "Verified your OTP",
+                      loading: loading,
                       onPressed: () async {
+                        if (otpConttrolor.text.length < 6) {
+                          print("-------Not");
+                        }
+                        setState(() {
+                          loading = true;
+                        });
                         final crendital = PhoneAuthProvider.credential(
                             verificationId: widget.vereficationId,
                             smsCode: otpConttrolor.text);
                         try {
                           await FirebaseAuth.instance
                               .signInWithCredential(crendital);
-                          FirebaseFirestore.instance
-                              .collection("allUser")
-                              .doc("+91${widget.number}")
-                              .set({
-                            "name": widget.name,
-                            "email": widget.email,
-                            "number": widget.number,
-                          });
-                          Navigator.push(
+
+                          if (widget.isSingUp == true) {
+                            FirebaseFirestore.instance
+                                .collection("allUser")
+                                .doc("+91${widget.number}")
+                                .set({
+                              "name": widget.name,
+                              "email": widget.email,
+                              "number": widget.number,
+                            });
+                          }
+
+                          Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => UploadPrescription()));
+                                  builder: (context) => UploadPrescription()),
+                              (route) => false);
                         } catch (e) {
-                          print(e);
+                          print("---------$e");
+                          setState(() {
+                            loading = false;
+                          });
                         }
+                        setState(() {
+                          loading = false;
+                        });
                       },
                       mycolors: AppComponent.Green),
                   SizedBox(

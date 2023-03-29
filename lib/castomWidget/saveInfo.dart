@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:generic_medicine/castomWidget/appComponent.dart';
 import 'package:generic_medicine/castomWidget/appbar.dart';
 import 'package:generic_medicine/castomWidget/fullButtom.dart';
+import 'package:generic_medicine/uploadPrescription.dart';
 
 class SaveInfo extends StatefulWidget {
   const SaveInfo({super.key});
@@ -25,23 +28,46 @@ class _SaveInfoState extends State<SaveInfo> {
   bool isWhatsapp = false;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var userInfo = FirebaseFirestore.instance
+        .collection("allUser")
+        .doc(userNumber)
+        .get()
+        .then((value) => {
+              setState(() {
+                _name.text = value["name"];
+                _number.text = value["number"];
+                _email.text = value["email"];
+                _country.text = value["country"];
+              })
+            });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: MyAppBar().myapp(),
+        appBar: MyAppBar().myapp(context),
         body: Column(
           children: [
             Padding(
               padding: EdgeInsets.fromLTRB(30.h, 20.h, 30.h, 0.h),
               child: Row(
                 children: [
-                  CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 25.sp,
-                      child: Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: Image.asset(AppComponent.lineArrow),
-                      )),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: 25.sp,
+                        child: Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: Image.asset(AppComponent.lineArrow),
+                        )),
+                  ),
                   SizedBox(
                     width: 20.h,
                   ),
@@ -108,7 +134,7 @@ class _SaveInfoState extends State<SaveInfo> {
                                     SizedBox(
                                       width: 10.w,
                                     ),
-                                    Text(
+                                    const Text(
                                       "+ 91",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold),

@@ -20,7 +20,7 @@ class _ProcessState extends State<Process> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: MyAppBar().myapp(),
+        appBar: MyAppBar().myapp(context),
         body: Column(
           children: [
             Container(
