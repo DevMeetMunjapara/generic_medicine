@@ -73,8 +73,10 @@ class MyAppBar {
                 ),
                 Text(
                   title,
-                  style:
-                      TextStyle(color: AppComponent.NevyBlue, fontSize: 24.sp),
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22.sp),
                 ),
               ],
             )),

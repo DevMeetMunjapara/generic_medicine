@@ -32,6 +32,7 @@ class AppComponent {
   static String gallery = "img/home/gallery.png";
   static String prescription = "img/home/prescription.png";
   static String arrowRight = "img/home/arrowRight.png";
+  static String rightSite = "img/home/rightSite.png";
   static String tickmark = "img/home/tickmark.png";
   static String flash = "img/home/flash.png";
   static String taskOne = "img/home/taskOne.png";

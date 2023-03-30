@@ -13,8 +13,10 @@ import 'package:generic_medicine/castomWidget/appbar.dart';
 import 'package:generic_medicine/castomWidget/fullButtom.dart';
 import 'package:generic_medicine/castomWidget/howToProcess.dart';
 import 'package:generic_medicine/castomWidget/myPrescription.dart';
+import 'package:generic_medicine/castomWidget/widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insta_image_viewer/insta_image_viewer.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 late final String userNumber;
@@ -30,8 +32,10 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
   File? prescription;
   bool isSelectImage = false;
   bool isOneUpload = false;
+  bool isLoading = false;
   int curuntPage = 0;
   List myList = [];
+  List myFileNameList = [];
   PageController _pageController = PageController();
 
   @override
@@ -44,8 +48,8 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
 
   @override
   Widget build(BuildContext context) {
-    // String fileName = myList[0].split('/').last;
-    // print(fileName);
+    print(myList);
+    print(myFileNameList);
     return SafeArea(
       child: Scaffold(
         appBar: MyAppBar().myapp(context),
@@ -140,6 +144,7 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
                             onTap: () {
                               setState(() {
                                 myList.removeAt(curuntPage);
+                                myFileNameList.removeAt(curuntPage);
                               });
                               if (myList.length == 0) {
                                 setState(() {
@@ -194,59 +199,46 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
                         width: double.infinity,
                         height: 45.h,
                         child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              side: BorderSide(color: AppComponent.Green),
-                              elevation: 0,
-                              backgroundColor: AppComponent.Green,
-                            ),
-                            onPressed: () async {
-                              var totalCount;
-                              var auth = await FirebaseFirestore.instance
-                                  .collection("allUser")
-                                  .doc(userNumber)
-                                  .collection("order");
-                              var count = auth.get().then(
-                                (value) {
-                                  totalCount = value.docs.length;
-                                },
-                              );
-                              final _firebaseStorage = FirebaseStorage.instance;
-                              final path = "${userNumber}/${myList[0]!.name}";
-                              final file = File(myList[0]!.path);
-                              final ref = FirebaseStorage.instance
-                                  .ref()
-                                  .child(path)
-                                  .putFile(file);
-
-                              // auth.doc("2023000").set({
-                              //   "image": myList,
-                              // });
-                            },
-                            child: Text(
-                              "Confirm Prescription",
-                              style: TextStyle(
-                                  fontSize: 18.sp, color: Colors.white),
-                            )),
+                          style: ElevatedButton.styleFrom(
+                            side: BorderSide(color: AppComponent.Green),
+                            elevation: 0,
+                            backgroundColor: AppComponent.Green,
+                          ),
+                          onPressed: () async {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HowToProcess(
+                                          myFileNameList: myFileNameList,
+                                          myList: myList,
+                                        )));
+                            setState(() {
+                              isLoading = false;
+                            });
+                          },
+                          child: isLoading == false
+                              ? Text(
+                                  "Confirm Prescription",
+                                  style: TextStyle(
+                                      fontSize: 18.sp, color: Colors.white),
+                                )
+                              : CircularProgressIndicator(color: Colors.white),
+                        ),
                       ),
                     ),
                     SizedBox(
                       height: 10.h,
                     ),
                     Center(
-                        child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HowToProcess()));
-                      },
-                      child: Text(
-                        "How it work?",
-                        style: TextStyle(
-                            fontSize: 18.h,
-                            color: AppComponent.Green,
-                            fontWeight: FontWeight.bold),
-                      ),
+                        child: Text(
+                      "How it work?",
+                      style: TextStyle(
+                          fontSize: 18.h,
+                          color: AppComponent.Green,
+                          fontWeight: FontWeight.bold),
                     ))
                   ],
                 ),
@@ -376,15 +368,18 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
                   onTap: () async {
                     final image = await ImagePicker()
                         .pickImage(source: ImageSource.camera);
+
                     if (image == null) {
                       return;
                     }
+                    String fileName = image.path.split('/').last;
                     final temporyImage = File(image.path);
                     prescription = temporyImage;
                     setState(() {
                       isSelectImage = true;
                       isOneUpload = true;
                       myList.add(prescription);
+                      myFileNameList.add(fileName);
 
                       print(prescription);
                     });
@@ -399,13 +394,14 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
                     if (image == null) {
                       return;
                     }
+                    String fileName = image.path.split('/').last;
                     final temporyImage = File(image.path);
                     prescription = temporyImage;
                     setState(() {
                       isSelectImage = true;
                       isOneUpload = true;
                       myList.add(prescription);
-                      print(prescription);
+                      myFileNameList.add(fileName);
                     });
                     Navigator.pop(context);
                   },

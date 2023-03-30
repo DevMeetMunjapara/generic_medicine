@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -11,7 +14,13 @@ import 'package:generic_medicine/uploadPrescription.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HowToProcess extends StatefulWidget {
-  const HowToProcess({super.key});
+  List myFileNameList;
+  List myList;
+  HowToProcess({
+    super.key,
+    required this.myFileNameList,
+    required this.myList,
+  });
 
   @override
   State<HowToProcess> createState() => _HowToProcessState();
@@ -20,6 +29,7 @@ class HowToProcess extends StatefulWidget {
 class _HowToProcessState extends State<HowToProcess> {
   TextEditingController _folorNumber = TextEditingController();
   TextEditingController _type = TextEditingController();
+  bool loading = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -310,10 +320,49 @@ class _HowToProcessState extends State<HowToProcess> {
               Padding(
                 padding: EdgeInsets.fromLTRB(20.h, 5.h, 20.h, 0.h),
                 child: FullButton(
-                  title: "Place medicine request",
-                  onPressed: () {},
-                  mycolors: AppComponent.Green,
-                ),
+                    title: "Place medicine request",
+                    loading: loading,
+                    mycolors: AppComponent.Green,
+                    onPressed: () async {
+                      var totalCount;
+                      var auth = await FirebaseFirestore.instance
+                          .collection("allUser")
+                          .doc(userNumber)
+                          .collection("order");
+                      var count = auth.get().then(
+                        (value) async {
+                          totalCount = value.docs.length;
+                          print("------$totalCount");
+                          List urlFirebaseImage = [];
+
+                          final _firebaseStorage = FirebaseStorage.instance;
+
+                          for (var i = 0;
+                              i < widget.myFileNameList.length;
+                              i++) {
+                            final path =
+                                "${userNumber + "/2023000$totalCount"}/+${widget.myFileNameList[i]}";
+                            final file = File(widget.myList[i]!.path);
+                            final ref =
+                                FirebaseStorage.instance.ref().child(path);
+
+                            UploadTask uploadTask = ref.putFile(file);
+                            final snapshot =
+                                await uploadTask.whenComplete(() {});
+                            final url = await snapshot.ref.getDownloadURL();
+                            urlFirebaseImage.add(url);
+                            print("---------$url");
+                            print(urlFirebaseImage);
+                          }
+                          auth.doc("2023000$totalCount").set({
+                            "image": urlFirebaseImage,
+                          });
+                          setState(() {
+                            loading = false;
+                          });
+                        },
+                      );
+                    }),
               )
             ],
           ),
