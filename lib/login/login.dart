@@ -29,7 +29,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        //resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         body: GestureDetector(
           onTap: () {
@@ -131,6 +131,7 @@ class _LoginState extends State<Login> {
                                   ),
                                 ),
                                 hintText: "Enter 10 digit mobile number",
+                                hintStyle: TextStyle(fontSize: 20.sp),
                                 enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(4),
                                     borderSide: BorderSide(

@@ -23,6 +23,7 @@ class AppComponent {
 
   static String introOne = "img/introScreen/introOne.png";
   static String groupOne = "img/introScreen/groupOne.png";
+  static String groupTwo = "img/introScreen/groupTwo.png";
 
   static String india = "img/home/india.png";
   static String profile = "img/home/profile.png";

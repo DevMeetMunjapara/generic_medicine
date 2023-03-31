@@ -110,264 +110,272 @@ class _SingUpState extends State<SingUp> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).requestFocus(new FocusNode());
-          },
-          child: SingleChildScrollView(
-            physics: ClampingScrollPhysics(),
-            child: Column(children: [
-              Container(
-                color: AppComponent.White,
-                height: 400.h,
-                width: double.infinity,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                    Image.asset(
-                      AppComponent.logo,
-                      height: 80.h,
-                    ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: AssetImage(
-                                AppComponent.singUp,
-                              ))),
-                      height: 280.h,
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(30.h, 30.h, 30.h, 10.h),
-                child: Container(
+      child: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+        },
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          backgroundColor: Colors.white,
+          body: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).requestFocus(new FocusNode());
+            },
+            child: SingleChildScrollView(
+              physics: ClampingScrollPhysics(),
+              child: Column(children: [
+                Container(
+                  color: AppComponent.White,
+                  height: 400.h,
                   width: double.infinity,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Sign Up",
-                        style: TextStyle(
-                            fontSize: 30.h,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
-                      ),
                       SizedBox(
-                        height: 5.h,
+                        height: 20.h,
                       ),
-                      Row(
-                        children: [
-                          Text(
-                            "Don’t have an account? ",
-                            style: TextStyle(
-                                fontSize: 22.h,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.pushNamedAndRemoveUntil(context,
-                                  AppComponent.loginPage, (route) => false);
-                            },
-                            child: Text(
-                              "Login ",
-                              style: TextStyle(
-                                  fontSize: 22.h,
-                                  color: AppComponent.Green,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          )
-                        ],
+                      Image.asset(
+                        AppComponent.logo,
+                        height: 80.h,
                       ),
                       SizedBox(
                         height: 20.h,
                       ),
-                      Form(
-                          key: _form,
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 70.h,
-                                child: TextFormField(
-                                  controller: _name,
-                                  keyboardType: TextInputType.name,
-                                  cursorColor: AppComponent.Green,
-                                  decoration: InputDecoration(
-                                      hintStyle: TextStyle(
-                                        fontSize: 20.sp,
-                                      ),
-                                      hintText: "Enter your Full Name",
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(4),
-                                          borderSide: BorderSide(
-                                              color: Color.fromARGB(
-                                                  255, 235, 235, 235))),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(4),
-                                          borderSide: BorderSide(
-                                              color: AppComponent.Green))),
-                                  validator: (value) {
-                                    if (value == "") {
-                                      return "Enter Your Name";
-                                    }
-                                  },
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                              SizedBox(
-                                height: 70.h,
-                                child: TextFormField(
-                                  controller: _email,
-                                  keyboardType: TextInputType.name,
-                                  cursorColor: AppComponent.Green,
-                                  decoration: InputDecoration(
-                                      hintStyle: TextStyle(
-                                        fontSize: 20.sp,
-                                      ),
-                                      hintText: "Enter you Email address",
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(4),
-                                          borderSide: BorderSide(
-                                              color: Color.fromARGB(
-                                                  255, 235, 235, 235))),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(4),
-                                          borderSide: BorderSide(
-                                              color: AppComponent.Green))),
-                                  validator: (value) {
-                                    if (value == "") {
-                                      return "Enter Email ID";
-                                    }
-                                    if (value!.isNotEmpty &&
-                                        !AppComponent.regex.hasMatch(value)) {
-                                      return "Enter a valid email address like @xyz.com";
-                                    }
-                                  },
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                              SizedBox(
-                                height: 70.h,
-                                child: TextFormField(
-                                  controller: _number,
-                                  keyboardType: TextInputType.number,
-                                  cursorColor: AppComponent.Green,
-                                  decoration: InputDecoration(
-                                      prefixIcon: Container(
-                                        padding: EdgeInsets.only(bottom: 6.sp),
-                                        // color: Colors.amber,
-                                        width: 10.w,
-                                        height: 0.sp,
-
-                                        child: Center(
-                                          child: Text(
-                                            "+91",
-                                            style: TextStyle(
-                                                fontSize: 18.sp,
-                                                fontWeight: FontWeight.bold),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                      ),
-                                      hintStyle: TextStyle(
-                                        fontSize: 20.sp,
-                                      ),
-                                      hintText: "Enter 10 digit mobile number",
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(4),
-                                          borderSide: BorderSide(
-                                              color: Color.fromARGB(
-                                                  255, 235, 235, 235))),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(4),
-                                          borderSide: BorderSide(
-                                              color: AppComponent.Green))),
-                                  validator: (value) {
-                                    if (value == "") {
-                                      return "Enter Mobile Number";
-                                    }
-                                    if (value!.length != 10) {
-                                      return 'Only 10 digit number valid';
-                                    }
-                                  },
-                                ),
-                              )
-                            ],
-                          )),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      FullButton(
-                          title: "Sing Up",
-                          loading: loading,
-                          onPressed: () {
-                            if (_form.currentState!.validate()) {
-                              cilickButtion(
-                                  _name.text, _email.text, _number.text);
-                            }
-                          },
-                          mycolors: AppComponent.Green),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "By signing in you agree to our",
-                          style: TextStyle(
-                              fontSize: 18.sp,
-                              color: Color.fromARGB(255, 126, 126, 126)),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "terms & conditions ",
-                            style: TextStyle(
-                                fontSize: 18.sp,
-                                color: AppComponent.NevyBlue,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          Text(
-                            "and ",
-                            style: TextStyle(
-                                fontSize: 18.sp,
-                                color: Color.fromARGB(255, 126, 126, 126)),
-                          ),
-                          Text(
-                            "Privacy policy",
-                            style: TextStyle(
-                                fontSize: 18.sp,
-                                color: AppComponent.NevyBlue,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ],
+                      Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: AssetImage(
+                                  AppComponent.singUp,
+                                ))),
+                        height: 280.h,
                       )
                     ],
                   ),
                 ),
-              )
-            ]),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(30.h, 30.h, 30.h, 10.h),
+                  child: Container(
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Sign Up",
+                          style: TextStyle(
+                              fontSize: 30.h,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "Don’t have an account? ",
+                              style: TextStyle(
+                                  fontSize: 22.h,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.pushNamedAndRemoveUntil(context,
+                                    AppComponent.loginPage, (route) => false);
+                              },
+                              child: Text(
+                                "Login ",
+                                style: TextStyle(
+                                    fontSize: 22.h,
+                                    color: AppComponent.Green,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        Form(
+                            key: _form,
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 70.h,
+                                  child: TextFormField(
+                                    controller: _name,
+                                    keyboardType: TextInputType.name,
+                                    cursorColor: AppComponent.Green,
+                                    decoration: InputDecoration(
+                                        hintStyle: TextStyle(
+                                          fontSize: 20.sp,
+                                        ),
+                                        hintText: "Enter your Full Name",
+                                        enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            borderSide: BorderSide(
+                                                color: Color.fromARGB(
+                                                    255, 235, 235, 235))),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            borderSide: BorderSide(
+                                                color: AppComponent.Green))),
+                                    validator: (value) {
+                                      if (value == "") {
+                                        return "Enter Your Name";
+                                      }
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10.h,
+                                ),
+                                SizedBox(
+                                  height: 70.h,
+                                  child: TextFormField(
+                                    controller: _email,
+                                    keyboardType: TextInputType.name,
+                                    cursorColor: AppComponent.Green,
+                                    decoration: InputDecoration(
+                                        hintStyle: TextStyle(
+                                          fontSize: 20.sp,
+                                        ),
+                                        hintText: "Enter you Email address",
+                                        enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            borderSide: BorderSide(
+                                                color: Color.fromARGB(
+                                                    255, 235, 235, 235))),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            borderSide: BorderSide(
+                                                color: AppComponent.Green))),
+                                    validator: (value) {
+                                      if (value == "") {
+                                        return "Enter Email ID";
+                                      }
+                                      if (value!.isNotEmpty &&
+                                          !AppComponent.regex.hasMatch(value)) {
+                                        return "Enter a valid email address like @xyz.com";
+                                      }
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10.h,
+                                ),
+                                SizedBox(
+                                  height: 70.h,
+                                  child: TextFormField(
+                                    controller: _number,
+                                    keyboardType: TextInputType.number,
+                                    cursorColor: AppComponent.Green,
+                                    decoration: InputDecoration(
+                                        prefixIcon: Container(
+                                          padding:
+                                              EdgeInsets.only(bottom: 6.sp),
+                                          // color: Colors.amber,
+                                          width: 10.w,
+                                          height: 0.sp,
+
+                                          child: Center(
+                                            child: Text(
+                                              "+91",
+                                              style: TextStyle(
+                                                  fontSize: 18.sp,
+                                                  fontWeight: FontWeight.bold),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                        ),
+                                        hintStyle: TextStyle(
+                                          fontSize: 20.sp,
+                                        ),
+                                        hintText:
+                                            "Enter 10 digit mobile number",
+                                        enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            borderSide: BorderSide(
+                                                color: Color.fromARGB(
+                                                    255, 235, 235, 235))),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            borderSide: BorderSide(
+                                                color: AppComponent.Green))),
+                                    validator: (value) {
+                                      if (value == "") {
+                                        return "Enter Mobile Number";
+                                      }
+                                      if (value!.length != 10) {
+                                        return 'Only 10 digit number valid';
+                                      }
+                                    },
+                                  ),
+                                )
+                              ],
+                            )),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        FullButton(
+                            title: "Sing Up",
+                            loading: loading,
+                            onPressed: () {
+                              if (_form.currentState!.validate()) {
+                                cilickButtion(
+                                    _name.text, _email.text, _number.text);
+                              }
+                            },
+                            mycolors: AppComponent.Green),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            "By signing in you agree to our",
+                            style: TextStyle(
+                                fontSize: 18.sp,
+                                color: Color.fromARGB(255, 126, 126, 126)),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "terms & conditions ",
+                              style: TextStyle(
+                                  fontSize: 18.sp,
+                                  color: AppComponent.NevyBlue,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            Text(
+                              "and ",
+                              style: TextStyle(
+                                  fontSize: 18.sp,
+                                  color: Color.fromARGB(255, 126, 126, 126)),
+                            ),
+                            Text(
+                              "Privacy policy",
+                              style: TextStyle(
+                                  fontSize: 18.sp,
+                                  color: AppComponent.NevyBlue,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ]),
+            ),
           ),
         ),
       ),

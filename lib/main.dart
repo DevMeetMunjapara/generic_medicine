@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
             fontFamily: "DMSans",
           ),
           routes: {
-            "/": (context) => MyOrder(),
+            "/": (context) => Logo(),
             AppComponent.loginPage: (context) => Login(),
             AppComponent.singUpPage: (context) => SingUp(),
           },

@@ -5,6 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:generic_medicine/castomWidget/appComponent.dart';
 import 'package:generic_medicine/castomWidget/fullButtom.dart';
+import 'package:generic_medicine/login/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Permission extends StatefulWidget {
   const Permission({super.key});
@@ -21,9 +23,11 @@ class _PermissionState extends State<Permission> {
         appBar: AppBar(
           elevation: 0,
           toolbarHeight: 100.h,
+          automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
           title: Container(
-            //color: Colors.amber,
+            alignment: Alignment.centerLeft,
+            width: double.infinity,
             child: Padding(
                 padding: EdgeInsets.only(top: 40.h),
                 child: Row(
@@ -96,7 +100,19 @@ class _PermissionState extends State<Permission> {
                 padding: EdgeInsets.fromLTRB(20.h, 15.h, 20.h, 10.h),
                 child: FullButton(
                     title: "Agree and Continue",
-                    onPressed: () {},
+                    onPressed: () async {
+                      final prefs = await SharedPreferences.getInstance();
+                      prefs.setBool('showHome', true);
+                      final bool showHome;
+
+                      showHome = prefs.getBool('showHome') ?? false;
+                      print("---------$showHome");
+
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => Login()),
+                          (route) => false);
+                    },
                     mycolors: AppComponent.Green))),
       ),
     );

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -6,7 +8,11 @@ import 'package:generic_medicine/castomWidget/appComponent.dart';
 import 'package:generic_medicine/castomWidget/appbar.dart';
 import 'package:generic_medicine/castomWidget/fullButtom.dart';
 import 'package:generic_medicine/castomWidget/locationAdd.dart';
+import 'package:generic_medicine/castomWidget/myOrder.dart';
+import 'package:generic_medicine/castomWidget/partner.dart';
 import 'package:generic_medicine/castomWidget/saveInfo.dart';
+import 'package:generic_medicine/login/login.dart';
+import 'package:generic_medicine/uploadPrescription.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -16,6 +22,25 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  var _name;
+  var _email;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var userInfo = FirebaseFirestore.instance
+        .collection("allUser")
+        .doc(userNumber)
+        .get()
+        .then((value) => {
+              setState(() {
+                _name = value["name"];
+                _email = value["email"];
+              })
+            });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -45,7 +70,7 @@ class _ProfileState extends State<Profile> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "HET VANPARIYA",
+                          "$_name",
                           style: TextStyle(
                               fontSize: 20.sp, fontWeight: FontWeight.bold),
                         ),
@@ -69,7 +94,7 @@ class _ProfileState extends State<Profile> {
                   Row(
                     children: [
                       Text(
-                        "+91 0986543232",
+                        "$userNumber",
                         style: TextStyle(
                             fontSize: 16.sp,
                             color: Color.fromARGB(255, 58, 85, 101)),
@@ -78,7 +103,7 @@ class _ProfileState extends State<Profile> {
                         width: 10.sp,
                       ),
                       Text(
-                        "hetvanpariya@gmail.com",
+                        "$_email",
                         style: TextStyle(
                             fontSize: 16.sp,
                             color: Color.fromARGB(255, 58, 85, 101)),
@@ -91,15 +116,21 @@ class _ProfileState extends State<Profile> {
                   SizedBox(
                     height: 20.h,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      box("My Orders", "view all order list"),
-                      Icon(
-                        Icons.keyboard_arrow_right,
-                        size: 40.sp,
-                      )
-                    ],
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => MyOrder()));
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        box("My Orders", "view all order list"),
+                        Icon(
+                          Icons.keyboard_arrow_right,
+                          size: 40.sp,
+                        )
+                      ],
+                    ),
                   ),
                   Divider(
                     thickness: 1.5.sp,
@@ -145,23 +176,53 @@ class _ProfileState extends State<Profile> {
                   Divider(
                     thickness: 1.5.sp,
                   ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  Row(
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 5.h,
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Partner()));
+              },
+              child: Container(
+                color: Colors.white,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(30.h, 10.h, 30.h, 15.h),
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      box("Request for Refunds",
-                          "Refund status & Refund request"),
+                      Text(
+                        "Become a Franchise Partner",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 8, 97, 62),
+                            fontSize: 18.sp),
+                      ),
                       Icon(
                         Icons.keyboard_arrow_right,
                         size: 40.sp,
                       )
                     ],
                   ),
-                ],
+                ),
               ),
             ),
+            SizedBox(
+              height: 10.h,
+            ),
+            FullButton(
+                title: "Log Out",
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => Login()),
+                      (route) => false);
+                },
+                mycolors: AppComponent.red),
             Padding(
               padding: EdgeInsets.fromLTRB(30.h, 10.h, 30.h, 15.h),
               child: Column(
@@ -184,23 +245,34 @@ class _ProfileState extends State<Profile> {
                     style: TextStyle(
                         color: Color.fromARGB(255, 100, 121, 138),
                         fontWeight: FontWeight.bold,
+                        fontSize: 15.sp),
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Text(
+                    "Making Healthcare",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 180, 180, 180),
+                        fontWeight: FontWeight.bold,
                         fontSize: 16.sp),
-                  )
+                  ),
+                  Text(
+                    "Accessible & Affordable",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 197, 196, 172),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.sp),
+                  ),
+                  const Text(
+                    "Made with ❤️ by Generic medicine",
+                    textAlign: TextAlign.start,
+                  ),
                 ],
               ),
             ),
-            SizedBox(
-              height: 10.h,
-            ),
-            FullButton(
-                title: "Log Out", onPressed: () {}, mycolors: AppComponent.red),
-            SizedBox(
-              height: 10.h,
-            ),
-            Text(
-              "V 1.0.0",
-              style: TextStyle(color: Color.fromARGB(255, 197, 197, 197)),
-            )
           ],
         ),
       ),
@@ -213,12 +285,12 @@ class _ProfileState extends State<Profile> {
       children: [
         Text(
           title,
-          style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
         ),
         Text(
           title2,
           style: TextStyle(
-              fontSize: 18.sp, color: Color.fromARGB(255, 58, 85, 101)),
+              fontSize: 16.sp, color: Color.fromARGB(255, 58, 85, 101)),
         ),
       ],
     );
