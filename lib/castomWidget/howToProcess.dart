@@ -12,6 +12,7 @@ import 'package:generic_medicine/castomWidget/fullButtom.dart';
 import 'package:generic_medicine/castomWidget/locationAdd.dart';
 import 'package:generic_medicine/uploadPrescription.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HowToProcess extends StatefulWidget {
   List myFileNameList;
@@ -62,12 +63,17 @@ class _HowToProcessState extends State<HowToProcess> {
                 padding: EdgeInsets.only(left: 30.h, right: 30.h),
                 child: Row(
                   children: [
-                    CircleAvatar(
-                      radius: 20.h,
-                      backgroundColor: Colors.white,
-                      child: Padding(
-                          padding: EdgeInsets.all(7.h),
-                          child: Image.asset(AppComponent.lineArrow)),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: CircleAvatar(
+                        radius: 20.h,
+                        backgroundColor: Colors.white,
+                        child: Padding(
+                            padding: EdgeInsets.all(7.h),
+                            child: SvgPicture.asset(AppComponent.lineArrow)),
+                      ),
                     ),
                     SizedBox(
                       width: 20.w,
@@ -123,7 +129,7 @@ class _HowToProcessState extends State<HowToProcess> {
                             SizedBox(
                               width: 10.sp,
                             ),
-                            Image.asset(AppComponent.tickmark)
+                            SvgPicture.asset(AppComponent.tickmark)
                           ],
                         ),
                       ),
@@ -138,7 +144,7 @@ class _HowToProcessState extends State<HowToProcess> {
                                 radius: 20.sp,
                                 backgroundColor:
                                     Color.fromARGB(255, 255, 248, 256),
-                                child: Image.asset(AppComponent.flash)),
+                                child: SvgPicture.asset(AppComponent.flash)),
                             SizedBox(
                               width: 10.w,
                             ),
@@ -278,7 +284,7 @@ class _HowToProcessState extends State<HowToProcess> {
                 padding: EdgeInsets.fromLTRB(20.h, 20.h, 20.h, 10.h),
                 child: Row(
                   children: [
-                    Image.asset(AppComponent.homeAddress),
+                    SvgPicture.asset(AppComponent.homeAddress),
                     SizedBox(
                       width: 20.w,
                     ),
@@ -389,7 +395,7 @@ class _HowToProcessState extends State<HowToProcess> {
                           borderRadius: BorderRadius.circular(6.sp),
                           color: Color.fromARGB(255, 20, 46, 35)),
                       padding: EdgeInsets.all(10.sp),
-                      child: Image.asset(image1)),
+                      child: SvgPicture.asset(image1)),
                 ),
                 SizedBox(
                   width: 20.w,
@@ -413,7 +419,7 @@ class _HowToProcessState extends State<HowToProcess> {
                                 borderRadius: BorderRadius.circular(6.sp),
                                 color: Color.fromARGB(255, 20, 46, 35)),
                             padding: EdgeInsets.all(8.sp),
-                            child: Image.asset(image2)),
+                            child: SvgPicture.asset(image2)),
                       ),
                 SizedBox(
                   width: 20.w,
@@ -437,7 +443,7 @@ class _HowToProcessState extends State<HowToProcess> {
                                 borderRadius: BorderRadius.circular(6.sp),
                                 color: Color.fromARGB(255, 20, 46, 35)),
                             padding: EdgeInsets.all(8.sp),
-                            child: Image.asset(image3)),
+                            child: SvgPicture.asset(image3)),
                       ),
               ],
             ),

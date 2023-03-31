@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:generic_medicine/login/login.dart';
 import 'package:generic_medicine/uploadPrescription.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Logo extends StatefulWidget {
   const Logo({super.key});
@@ -59,9 +60,9 @@ class _LogoState extends State<Logo> {
     return Scaffold(
       backgroundColor: AppComponent.White,
       body: Center(
-          child: Image(
-        image: AssetImage(AppComponent.introLogo),
-        height: 120.sp,
+          child: SvgPicture.asset(
+        AppComponent.introLogo,
+        width: 180.sp,
       )),
     );
   }

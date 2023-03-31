@@ -13,6 +13,7 @@ import 'package:generic_medicine/castomWidget/widget.dart';
 import 'package:generic_medicine/login/login.dart';
 import 'package:generic_medicine/login/otp.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SingUp extends StatefulWidget {
   const SingUp({super.key});
@@ -115,7 +116,6 @@ class _SingUpState extends State<SingUp> {
           FocusScope.of(context).requestFocus(new FocusNode());
         },
         child: Scaffold(
-          resizeToAvoidBottomInset: false,
           backgroundColor: Colors.white,
           body: GestureDetector(
             onTap: () {
@@ -133,22 +133,20 @@ class _SingUpState extends State<SingUp> {
                       SizedBox(
                         height: 20.h,
                       ),
-                      Image.asset(
+                      SvgPicture.asset(
                         AppComponent.logo,
-                        height: 80.h,
+                        height: 70.sp,
                       ),
                       SizedBox(
                         height: 20.h,
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                fit: BoxFit.fill,
-                                image: AssetImage(
-                                  AppComponent.singUp,
-                                ))),
-                        height: 280.h,
-                      )
+                      SizedBox(
+                          width: double.infinity,
+                          height: 290.h,
+                          child: SvgPicture.asset(
+                            AppComponent.singUp,
+                            fit: BoxFit.fill,
+                          ))
                     ],
                   ),
                 ),

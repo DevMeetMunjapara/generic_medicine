@@ -10,6 +10,7 @@ import 'package:generic_medicine/castomWidget/appComponent.dart';
 import 'package:generic_medicine/castomWidget/appbar.dart';
 import 'package:generic_medicine/castomWidget/fullButtom.dart';
 import 'package:generic_medicine/uploadPrescription.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SaveInfo extends StatefulWidget {
   const SaveInfo({super.key});
@@ -70,7 +71,7 @@ class _SaveInfoState extends State<SaveInfo> {
                           radius: 25.sp,
                           child: Padding(
                             padding: const EdgeInsets.all(5),
-                            child: Image.asset(AppComponent.lineArrow),
+                            child: SvgPicture.asset(AppComponent.lineArrow),
                           )),
                     ),
                     SizedBox(
@@ -135,7 +136,7 @@ class _SaveInfoState extends State<SaveInfo> {
                                   width: 80.w,
                                   child: Row(
                                     children: [
-                                      Image.asset(AppComponent.india),
+                                      SvgPicture.asset(AppComponent.india),
                                       SizedBox(
                                         width: 10.w,
                                       ),
@@ -191,7 +192,7 @@ class _SaveInfoState extends State<SaveInfo> {
                             SizedBox(
                               width: 5.w,
                             ),
-                            Image.asset(AppComponent.whatsapp)
+                            SvgPicture.asset(AppComponent.whatsapp)
                           ],
                         ),
                       ),

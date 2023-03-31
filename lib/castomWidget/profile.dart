@@ -13,6 +13,7 @@ import 'package:generic_medicine/castomWidget/partner.dart';
 import 'package:generic_medicine/castomWidget/saveInfo.dart';
 import 'package:generic_medicine/login/login.dart';
 import 'package:generic_medicine/uploadPrescription.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -58,7 +59,7 @@ class _ProfileState extends State<Profile> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset(
+                  SvgPicture.asset(
                     AppComponent.profile,
                   ),
                   SizedBox(

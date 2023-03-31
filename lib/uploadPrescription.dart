@@ -1,6 +1,5 @@
 import 'dart:ffi';
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -18,6 +17,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 late final String userNumber;
 
@@ -91,11 +91,7 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
                       height: 20.h,
                     ),
                     isOneUpload == false
-                        ? Center(
-                            child: Image.asset(
-                            AppComponent.home,
-                            height: 150.h,
-                          ))
+                        ? Center(child: SvgPicture.asset(AppComponent.home))
                         : Center(
                             child: Column(
                               children: [
@@ -292,9 +288,9 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
                       ],
                     ),
                   ),
-                  Image.asset(
+                  SvgPicture.asset(
                     AppComponent.valid,
-                    width: 130.h,
+                    height: 150.h,
                   )
                 ],
               ),
@@ -310,7 +306,7 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
       padding: EdgeInsets.only(left: 25.h, right: 25.h, bottom: 10.h),
       child: Row(
         children: [
-          Image.asset(image),
+          SvgPicture.asset(image),
           SizedBox(
             width: 10.h,
           ),
@@ -351,7 +347,7 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
                           onTap: () {
                             Navigator.pop(context);
                           },
-                          child: Image.asset(AppComponent.cancel))
+                          child: SvgPicture.asset(AppComponent.cancel))
                     ],
                   ),
                 ),

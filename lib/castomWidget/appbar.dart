@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:generic_medicine/castomWidget/appComponent.dart';
 import 'package:generic_medicine/castomWidget/profile.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class MyAppBar {
   AppBar myapp(BuildContext context) {
@@ -18,7 +19,7 @@ class MyAppBar {
             padding: EdgeInsets.only(top: 30.h, left: 10.h, bottom: 15.h),
             child: Row(
               children: [
-                Image.asset(AppComponent.singlLogo),
+                SvgPicture.asset(AppComponent.singlLogo),
                 SizedBox(
                   width: 30.h,
                 ),
@@ -37,7 +38,9 @@ class MyAppBar {
                   child: CircleAvatar(
                       backgroundColor: AppComponent.White,
                       radius: 30.h,
-                      child: Image.asset(AppComponent.profile)),
+                      child: SvgPicture.asset(
+                        AppComponent.profile,
+                      )),
                 )
               ],
             )),
@@ -65,7 +68,7 @@ class MyAppBar {
                       backgroundColor: AppComponent.White,
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: Image.asset(AppComponent.lineArrow),
+                        child: SvgPicture.asset(AppComponent.lineArrow),
                       )),
                 ),
                 SizedBox(

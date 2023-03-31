@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:generic_medicine/login/login.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AppComponent {
   // colors
@@ -12,39 +13,41 @@ class AppComponent {
 
 //Images
   // Logo
-  static String introLogo = "img/introLogo.png";
-  static String lineArrow = "img/lineArrow.png";
-  static String logo = "img/logo.png";
+  static String introLogo = "img/introLogo.svg";
+  static String lineArrow = "img/lineArrow.svg";
+  static String logo = "img/logo.svg";
 
-  static String login = "img/login/login.png";
-  static String singUp = "img/login/singUp.png";
-  static String singlLogo = "img/singlLogo.png";
-  static String otp = "img/login/otp.png";
+  static String login = "img/login/login.svg";
+  static String singUp = "img/login/singUp.svg";
+  static String singlLogo = "img/singlLogo.svg";
+  static String otp = "img/login/otp.svg";
 
   static String introOne = "img/introScreen/introOne.png";
-  static String groupOne = "img/introScreen/groupOne.png";
-  static String groupTwo = "img/introScreen/groupTwo.png";
+  static String groupOne = "img/introScreen/groupOne.svg";
+  static String groupTwo = "img/introScreen/groupTwo.svg";
+  static String groupOnePage = "img/introScreen/groupOnePage.svg";
+  static String groupTwoPage = "img/introScreen/groupTwoPage.svg";
 
-  static String india = "img/home/india.png";
-  static String profile = "img/home/profile.png";
-  static String home = "img/home/home.png";
-  static String cancel = "img/home/cancel.png";
-  static String photo = "img/home/photo.png";
-  static String gallery = "img/home/gallery.png";
-  static String prescription = "img/home/prescription.png";
-  static String arrowRight = "img/home/arrowRight.png";
+  static String india = "img/home/india.svg";
+  static String profile = "img/home/profile.svg";
+  static String home = "img/home/home.svg";
+  static String cancel = "img/home/cancel.svg";
+  static String photo = "img/home/photo.svg";
+  static String gallery = "img/home/gallery.svg";
+  static String prescription = "img/home/prescription.svg";
+  static String arrowRight = "img/home/arrowRight.svg";
   static String rightSite = "img/home/rightSite.png";
-  static String tickmark = "img/home/tickmark.png";
-  static String flash = "img/home/flash.png";
-  static String taskOne = "img/home/taskOne.png";
-  static String taskTwo = "img/home/taskTwo.png";
-  static String taskThree = "img/home/taskThree.png";
-  static String homeAddress = "img/home/homeAddress.png";
+  static String tickmark = "img/home/tickmark.svg";
+  static String flash = "img/home/flash.svg";
+  static String taskOne = "img/home/taskOne.svg";
+  static String taskTwo = "img/home/taskTwo.svg";
+  static String taskThree = "img/home/taskThree.svg";
+  static String homeAddress = "img/home/homeAddress.svg";
   static String process = "img/home/process.png";
   static String doctor = "img/home/doctor.png";
-  static String whatsapp = "img/home/whatsapp.png";
+  static String whatsapp = "img/home/whatsapp.svg";
   static String internet = "img/home/Internet.png";
-  static String valid = "img/home/valid.png";
+  static String valid = "img/home/valid.svg";
 
   static const String loginPage = "/loginPage";
   static const String singUpPage = "/singUpPage";
