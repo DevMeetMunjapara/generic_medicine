@@ -161,7 +161,10 @@ class _ProfileState extends State<Profile> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => LocationAdd()));
+                              builder: (context) => LocationAdd(
+                                    myFileNameList: [],
+                                    myList: [],
+                                  )));
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

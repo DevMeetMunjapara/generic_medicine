@@ -74,10 +74,6 @@ class _InteroScreenState extends State<InteroScreen> {
           SizedBox(
             height: 30.h,
           ),
-          SvgPicture.asset(
-            AppComponent.groupOnePage,
-            height: 20,
-          ),
           SizedBox(
             height: 20.h,
           ),
@@ -87,7 +83,7 @@ class _InteroScreenState extends State<InteroScreen> {
                   title: "Continue",
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => introTwo()));
+                        MaterialPageRoute(builder: (context) => Permission()));
                   },
                   mycolors: AppComponent.Green)),
           SizedBox(
@@ -105,95 +101,6 @@ class _InteroScreenState extends State<InteroScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget introTwo() {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Color.fromARGB(255, 20, 37, 30),
-        body: Container(
-          width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 20.h,
-              ),
-              SizedBox(
-                child: SvgPicture.asset(
-                  AppComponent.logo,
-                  height: 60.sp,
-                ),
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-              Container(
-                width: double.infinity,
-                child: SvgPicture.asset(
-                  AppComponent.groupTwo,
-                  fit: BoxFit.fill,
-                  width: double.infinity,
-                  height: 410.h,
-                ),
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              Text(
-                "100,000+ items to\norder from",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 36.sp,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10.h),
-              Text(
-                "We have a wide range of products\nand brands available for you\n",
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white, fontSize: 18.sp),
-              ),
-              SizedBox(
-                height: 30.h,
-              ),
-              SvgPicture.asset(
-                AppComponent.groupTwoPage,
-                height: 20,
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              Padding(
-                  padding: EdgeInsets.only(left: 20.r, right: 20.r),
-                  child: FullButton(
-                      title: "Continue",
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Permission()));
-                      },
-                      mycolors: AppComponent.Green)),
-              SizedBox(
-                height: 20.h,
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Permission()));
-                },
-                child: Text(
-                  "Skip 👀",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: 20.sp),
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

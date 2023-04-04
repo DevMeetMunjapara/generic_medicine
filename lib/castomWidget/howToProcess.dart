@@ -42,12 +42,15 @@ class _HowToProcessState extends State<HowToProcess> {
   PageController pageController = PageController();
 
   @override
-  Widget build(BuildContext context) {
-    var userInfo = FirebaseFirestore.instance
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    FirebaseFirestore.instance
         .collection("allUser")
         .doc(userNumber)
         .get()
         .then((value) => {
+              print("----------------ok"),
               setState(() {
                 _folorNumber.text = value["address"]["folorNumber"].toString();
                 _type.text = value["address"]["type"].toString();
@@ -57,6 +60,12 @@ class _HowToProcessState extends State<HowToProcess> {
                     " ...";
               })
             });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print("---------${widget.myFileNameList}");
+    print("---------${widget.myList}");
     return SafeArea(
       child: Scaffold(
         appBar: MyAppBar().myapp(context),
@@ -322,10 +331,14 @@ class _HowToProcessState extends State<HowToProcess> {
                     ),
                     InkWell(
                       onTap: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LocationAdd()));
+                                builder: (context) => LocationAdd(
+                                      isListPasrse: true,
+                                      myList: widget.myList,
+                                      myFileNameList: widget.myList,
+                                    )));
                       },
                       child: Text(
                         _folorNumber.text == "" ? "Add" : "Change",

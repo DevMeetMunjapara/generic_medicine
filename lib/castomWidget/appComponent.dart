@@ -53,6 +53,7 @@ class AppComponent {
   static String orderApprove = "img/home/orderApprove.svg";
   static String orederApproveDone = "img/home/orederApproveDone.svg";
   static String mony = "img/home/mony.svg";
+  static String user = "img/home/user.svg";
 
   static const String loginPage = "/loginPage";
   static const String singUpPage = "/singUpPage";

@@ -32,8 +32,31 @@ class MyAppBar {
                   child: CircleAvatar(
                       backgroundColor: AppComponent.White,
                       radius: 30.h,
-                      child: Image.asset(AppComponent.profile)),
+                      child: SvgPicture.asset(AppComponent.user)),
                 )
+              ],
+            )),
+      ),
+    );
+  }
+
+  AppBar myappwithLogo(BuildContext context) {
+    return AppBar(
+      elevation: 3,
+      toolbarHeight: 100.h,
+      backgroundColor: Colors.white,
+      automaticallyImplyLeading: false,
+      title: Container(
+        //color: Colors.amber,
+        child: Padding(
+            padding: EdgeInsets.only(top: 30.h, left: 10.h, bottom: 15.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SvgPicture.asset(
+                  AppComponent.logo,
+                  height: 50.h,
+                ),
               ],
             )),
       ),

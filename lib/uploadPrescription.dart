@@ -210,7 +210,11 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
                                     builder: (context) => HowToProcess(
                                           myFileNameList: myFileNameList,
                                           myList: myList,
-                                        )));
+                                        ))).then((value) {
+                              myFileNameList = [];
+                              myList = [];
+                            });
+
                             setState(() {
                               isLoading = false;
                               isOneUpload = false;

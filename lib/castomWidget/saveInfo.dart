@@ -30,6 +30,7 @@ class _SaveInfoState extends State<SaveInfo> {
   TextEditingController _city = TextEditingController();
   TextEditingController _country = TextEditingController();
   bool isWhatsapp = false;
+  bool loading = false;
 
   @override
   void initState() {
@@ -44,6 +45,7 @@ class _SaveInfoState extends State<SaveInfo> {
                 _name.text = value["name"];
                 _number.text = value["number"];
                 _email.text = value["email"];
+                _city.text = value["city"];
                 _country.text = value["country"];
               })
             });
@@ -54,7 +56,7 @@ class _SaveInfoState extends State<SaveInfo> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: MyAppBar().myapp(context),
+        appBar: MyAppBar().myappwithLogo(context),
         body: GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(new FocusNode());
@@ -230,11 +232,15 @@ class _SaveInfoState extends State<SaveInfo> {
         floatingActionButton: Padding(
           padding: EdgeInsets.fromLTRB(30.h, 0.h, 30.h, 30.h),
           child: FullButton(
+              loading: loading,
               title: "Save & Continue",
               onPressed: () async {
                 if (_form.currentState!.validate()) {
                   bool result = await InternetConnectionChecker().hasConnection;
                   if (result == true) {
+                    setState(() {
+                      loading = true;
+                    });
                     await FirebaseFirestore.instance
                         .collection("allUser")
                         .doc(userNumber)
@@ -242,7 +248,16 @@ class _SaveInfoState extends State<SaveInfo> {
                       "name": _name.text,
                       "number": _number.text,
                       "email": _email.text,
+                      "city": _city.text,
                       "country": _country.text,
+                    }, SetOptions(merge: true));
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return BoxSaveData();
+                        });
+                    setState(() {
+                      loading = false;
                     });
                   } else {
                     showDialog(

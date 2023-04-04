@@ -7,12 +7,21 @@ import 'package:generic_medicine/castomWidget/BocSaveData.dart';
 import 'package:generic_medicine/castomWidget/appComponent.dart';
 import 'package:generic_medicine/castomWidget/appbar.dart';
 import 'package:generic_medicine/castomWidget/fullButtom.dart';
+import 'package:generic_medicine/castomWidget/howToProcess.dart';
 import 'package:generic_medicine/castomWidget/widget.dart';
 import 'package:generic_medicine/uploadPrescription.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class LocationAdd extends StatefulWidget {
-  const LocationAdd({super.key});
+  bool? isListPasrse;
+  List myFileNameList = [];
+  List myList = [];
+  LocationAdd({
+    super.key,
+    required this.myFileNameList,
+    required this.myList,
+    this.isListPasrse,
+  });
 
   @override
   State<LocationAdd> createState() => _LocationAddState();
@@ -77,7 +86,7 @@ class _LocationAddState extends State<LocationAdd> {
         },
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          appBar: MyAppBar().myapp(context),
+          appBar: MyAppBar().myappwithLogo(context),
           body: Column(
             children: [
               Padding(
@@ -367,7 +376,18 @@ class _LocationAddState extends State<LocationAdd> {
                                 return BoxSaveData();
                               });
                         });
-                        Navigator.pop(context, true);
+                        if (widget.isListPasrse == true) {
+                          print("---------${widget.myFileNameList}");
+                          print("---------${widget.myList}");
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HowToProcess(
+                                      myFileNameList: widget.myFileNameList,
+                                      myList: widget.myList)));
+                        } else {
+                          Navigator.pop(context);
+                        }
                       } else {
                         showDialog(
                             context: context,

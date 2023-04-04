@@ -138,24 +138,13 @@ class _OTPState extends State<OTP> {
                                   "country": "India",
                                 });
                               }
-                              final perf =
-                                  await SharedPreferences.getInstance();
-                              final getSaveInfo =
-                                  perf.getBool("getSaveInfo") ?? false;
-                              if (getSaveInfo == true) {
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            UploadPrescription()),
-                                    (route) => false);
-                              } else {
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => SaveInfo()),
-                                    (route) => false);
-                              }
+
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          UploadPrescription()),
+                                  (route) => false);
                             } catch (e) {
                               print("---------$e");
                               setState(() {

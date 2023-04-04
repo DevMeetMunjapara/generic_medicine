@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:generic_medicine/castomWidget/appComponent.dart';
+import 'package:generic_medicine/castomWidget/appbar.dart';
 import 'package:generic_medicine/castomWidget/fullButtom.dart';
 import 'package:generic_medicine/login/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,31 +21,7 @@ class _PermissionState extends State<Permission> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          toolbarHeight: 100.h,
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.white,
-          title: Container(
-            alignment: Alignment.centerLeft,
-            width: double.infinity,
-            child: Padding(
-                padding: EdgeInsets.only(top: 40.h),
-                child: Row(
-                  children: [
-                    Image.asset(AppComponent.lineArrow),
-                    SizedBox(
-                      width: 20.h,
-                    ),
-                    Text(
-                      "App permissions",
-                      style: TextStyle(
-                          color: AppComponent.NevyBlue, fontSize: 24.sp),
-                    ),
-                  ],
-                )),
-          ),
-        ),
+        appBar: MyAppBar().myappWithTitel(context, "App permissions"),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.only(left: 25.h, right: 25.h, top: 20.h),
