@@ -18,17 +18,11 @@ class MyAppBar {
         child: Padding(
             padding: EdgeInsets.only(top: 30.h, left: 10.h, bottom: 15.h),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SvgPicture.asset(AppComponent.singlLogo),
-                SizedBox(
-                  width: 30.h,
-                ),
-                Expanded(
-                  child: Text(
-                    "Surat",
-                    style: TextStyle(
-                        color: AppComponent.NevyBlue, fontSize: 24.sp),
-                  ),
+                SvgPicture.asset(
+                  AppComponent.logo,
+                  height: 50.h,
                 ),
                 GestureDetector(
                   onTap: () {
@@ -38,9 +32,7 @@ class MyAppBar {
                   child: CircleAvatar(
                       backgroundColor: AppComponent.White,
                       radius: 30.h,
-                      child: SvgPicture.asset(
-                        AppComponent.profile,
-                      )),
+                      child: Image.asset(AppComponent.profile)),
                 )
               ],
             )),

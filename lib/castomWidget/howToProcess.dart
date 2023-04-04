@@ -1,16 +1,23 @@
 import 'dart:io';
-
+import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:generic_medicine/castomWidget/appComponent.dart';
 import 'package:generic_medicine/castomWidget/appbar.dart';
+import 'package:generic_medicine/castomWidget/criculerProcess.dart';
 import 'package:generic_medicine/castomWidget/fullButtom.dart';
 import 'package:generic_medicine/castomWidget/locationAdd.dart';
+import 'package:generic_medicine/castomWidget/myOrder.dart';
+import 'package:generic_medicine/castomWidget/myPrescription.dart';
+import 'package:generic_medicine/castomWidget/process.dart';
+import 'package:generic_medicine/castomWidget/widget.dart';
 import 'package:generic_medicine/uploadPrescription.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -31,10 +38,11 @@ class _HowToProcessState extends State<HowToProcess> {
   TextEditingController _folorNumber = TextEditingController();
   TextEditingController _type = TextEditingController();
   bool loading = false;
+
+  PageController pageController = PageController();
+
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
+  Widget build(BuildContext context) {
     var userInfo = FirebaseFirestore.instance
         .collection("allUser")
         .doc(userNumber)
@@ -43,13 +51,12 @@ class _HowToProcessState extends State<HowToProcess> {
               setState(() {
                 _folorNumber.text = value["address"]["folorNumber"].toString();
                 _type.text = value["address"]["type"].toString();
+                _folorNumber.text = _folorNumber.text.toString().substring(
+                          0,
+                        ) +
+                    " ...";
               })
             });
-  }
-
-  PageController pageController = PageController();
-  @override
-  Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: MyAppBar().myapp(context),
@@ -293,12 +300,23 @@ class _HowToProcessState extends State<HowToProcess> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            "Delivering to ${_type.text}",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20.sp),
-                          ),
-                          Text(_folorNumber.text)
+                          _folorNumber.text == ""
+                              ? Text(
+                                  "Add You Address",
+                                  style: TextStyle(
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
+                              : Text(
+                                  "Delivering to ${_type.text}",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.sp),
+                                ),
+                          _folorNumber.text == ""
+                              ? SizedBox()
+                              : Text(_folorNumber.text),
                         ],
                       ),
                     ),
@@ -310,9 +328,11 @@ class _HowToProcessState extends State<HowToProcess> {
                                 builder: (context) => LocationAdd()));
                       },
                       child: Text(
-                        "Change",
+                        _folorNumber.text == "" ? "Add" : "Change",
                         style: TextStyle(
-                            color: AppComponent.Green,
+                            color: _folorNumber.text == ""
+                                ? AppComponent.red
+                                : AppComponent.Green,
                             fontWeight: FontWeight.bold,
                             fontSize: 20.sp),
                       ),
@@ -328,46 +348,107 @@ class _HowToProcessState extends State<HowToProcess> {
                 child: FullButton(
                     title: "Place medicine request",
                     loading: loading,
-                    mycolors: AppComponent.Green,
+                    mycolors: _folorNumber.text == ""
+                        ? AppComponent.red
+                        : AppComponent.Green,
                     onPressed: () async {
-                      var totalCount;
-                      var auth = await FirebaseFirestore.instance
-                          .collection("allUser")
-                          .doc(userNumber)
-                          .collection("order");
-                      var count = auth.get().then(
-                        (value) async {
-                          totalCount = value.docs.length;
-                          print("------$totalCount");
-                          List urlFirebaseImage = [];
-
-                          final _firebaseStorage = FirebaseStorage.instance;
-
-                          for (var i = 0;
-                              i < widget.myFileNameList.length;
-                              i++) {
-                            final path =
-                                "${userNumber + "/2023000$totalCount"}/+${widget.myFileNameList[i]}";
-                            final file = File(widget.myList[i]!.path);
-                            final ref =
-                                FirebaseStorage.instance.ref().child(path);
-
-                            UploadTask uploadTask = ref.putFile(file);
-                            final snapshot =
-                                await uploadTask.whenComplete(() {});
-                            final url = await snapshot.ref.getDownloadURL();
-                            urlFirebaseImage.add(url);
-                            print("---------$url");
-                            print(urlFirebaseImage);
-                          }
-                          auth.doc("2023000$totalCount").set({
-                            "image": urlFirebaseImage,
-                          });
+                      bool result =
+                          await InternetConnectionChecker().hasConnection;
+                      if (result == true) {
+                        if (_folorNumber.text == "") {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              backgroundColor: Colors.white,
+                              content: Container(
+                                padding: EdgeInsets.all(16.sp),
+                                height: 70.h,
+                                decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Center(
+                                  child: Text(
+                                    "Add your address after procrss",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 20.sp),
+                                  ),
+                                ),
+                              )));
+                        } else {
                           setState(() {
-                            loading = false;
+                            loading = true;
                           });
-                        },
-                      );
+                          var totalCount;
+                          var time = DateTime.now();
+
+                          var auth = await FirebaseFirestore.instance
+                              .collection("allOrder");
+
+                          var count = auth.get().then(
+                            (value) async {
+                              totalCount = value.docs.length;
+                              print("------$totalCount");
+                              List urlFirebaseImage = [];
+
+                              final _firebaseStorage = FirebaseStorage.instance;
+
+                              for (var i = 0;
+                                  i < widget.myFileNameList.length;
+                                  i++) {
+                                final path =
+                                    "${userNumber + "/2023000$totalCount"}/+${widget.myFileNameList[i]}";
+                                final file = File(widget.myList[i]!.path);
+                                final ref =
+                                    FirebaseStorage.instance.ref().child(path);
+
+                                UploadTask uploadTask = ref.putFile(file);
+                                final snapshot =
+                                    await uploadTask.whenComplete(() {});
+                                final url = await snapshot.ref.getDownloadURL();
+                                urlFirebaseImage.add(url);
+                                print("---------$url");
+                                print(urlFirebaseImage);
+                              }
+//all Order Data Set
+
+                              auth.doc("2023000$totalCount").set({
+                                "orderId": "2023000$totalCount",
+                                "time": time.toString(),
+                                "status": "1",
+                                "image": urlFirebaseImage,
+                              });
+//User Data Set
+                              await FirebaseFirestore.instance
+                                  .collection("allUser")
+                                  .doc(userNumber)
+                                  .collection("order")
+                                  .doc("2023000$totalCount")
+                                  .set({
+                                "orderId": "2023000$totalCount",
+                                "time": time.toString(),
+                                "status": "1",
+                                "image": urlFirebaseImage,
+                              });
+                              setState(() {
+                                loading = false;
+                              });
+
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Process(
+                                            OrderID: "2023000$totalCount",
+                                            OrderStatus: "1",
+                                          )));
+                            },
+                          );
+                        }
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return ShowInternetBox();
+                            });
+                      }
                     }),
               )
             ],

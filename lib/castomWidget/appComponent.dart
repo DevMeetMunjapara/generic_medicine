@@ -29,25 +29,30 @@ class AppComponent {
   static String groupTwoPage = "img/introScreen/groupTwoPage.svg";
 
   static String india = "img/home/india.svg";
-  static String profile = "img/home/profile.svg";
+  static String profile = "img/home/profile.png";
   static String home = "img/home/home.svg";
   static String cancel = "img/home/cancel.svg";
   static String photo = "img/home/photo.svg";
   static String gallery = "img/home/gallery.svg";
   static String prescription = "img/home/prescription.svg";
   static String arrowRight = "img/home/arrowRight.svg";
-  static String rightSite = "img/home/rightSite.png";
+  static String rightSite = "img/home/rightSite.svg";
   static String tickmark = "img/home/tickmark.svg";
   static String flash = "img/home/flash.svg";
   static String taskOne = "img/home/taskOne.svg";
   static String taskTwo = "img/home/taskTwo.svg";
   static String taskThree = "img/home/taskThree.svg";
   static String homeAddress = "img/home/homeAddress.svg";
-  static String process = "img/home/process.png";
-  static String doctor = "img/home/doctor.png";
+  static String process = "img/home/process.svg";
+  static String doctor = "img/home/doctor.svg";
   static String whatsapp = "img/home/whatsapp.svg";
   static String internet = "img/home/Internet.png";
   static String valid = "img/home/valid.svg";
+  static String approval = "img/home/approval.png";
+  static String orderClose = "img/home/orderClose.svg";
+  static String orderApprove = "img/home/orderApprove.svg";
+  static String orederApproveDone = "img/home/orederApproveDone.svg";
+  static String mony = "img/home/mony.svg";
 
   static const String loginPage = "/loginPage";
   static const String singUpPage = "/singUpPage";

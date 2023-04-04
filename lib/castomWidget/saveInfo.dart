@@ -6,11 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:generic_medicine/castomWidget/BocSaveData.dart';
 import 'package:generic_medicine/castomWidget/appComponent.dart';
 import 'package:generic_medicine/castomWidget/appbar.dart';
 import 'package:generic_medicine/castomWidget/fullButtom.dart';
+import 'package:generic_medicine/castomWidget/widget.dart';
 import 'package:generic_medicine/uploadPrescription.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class SaveInfo extends StatefulWidget {
   const SaveInfo({super.key});
@@ -49,14 +52,14 @@ class _SaveInfoState extends State<SaveInfo> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).requestFocus(new FocusNode());
-        },
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          appBar: MyAppBar().myapp(context),
-          body: Column(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: MyAppBar().myapp(context),
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+          child: Column(
             children: [
               Padding(
                 padding: EdgeInsets.fromLTRB(30.h, 20.h, 30.h, 0.h),
@@ -222,17 +225,35 @@ class _SaveInfoState extends State<SaveInfo> {
               )
             ],
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: Padding(
-            padding: EdgeInsets.fromLTRB(30.h, 0.h, 30.h, 30.h),
-            child: FullButton(
-                title: "Save & Continue",
-                onPressed: () {
-                  if (_form.currentState!.validate()) {}
-                },
-                mycolors: AppComponent.Green),
-          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: Padding(
+          padding: EdgeInsets.fromLTRB(30.h, 0.h, 30.h, 30.h),
+          child: FullButton(
+              title: "Save & Continue",
+              onPressed: () async {
+                if (_form.currentState!.validate()) {
+                  bool result = await InternetConnectionChecker().hasConnection;
+                  if (result == true) {
+                    await FirebaseFirestore.instance
+                        .collection("allUser")
+                        .doc(userNumber)
+                        .set({
+                      "name": _name.text,
+                      "number": _number.text,
+                      "email": _email.text,
+                      "country": _country.text,
+                    });
+                  } else {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return ShowInternetBox();
+                        });
+                  }
+                }
+              },
+              mycolors: AppComponent.Green),
         ),
       ),
     );

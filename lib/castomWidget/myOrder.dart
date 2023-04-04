@@ -6,7 +6,9 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:generic_medicine/castomWidget/appComponent.dart';
 import 'package:generic_medicine/castomWidget/appbar.dart';
+import 'package:generic_medicine/castomWidget/process.dart';
 import 'package:generic_medicine/uploadPrescription.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class MyOrder extends StatefulWidget {
   const MyOrder({super.key});
@@ -55,63 +57,77 @@ class _MyOrderState extends State<MyOrder> {
                             child: ListView.builder(
                               itemCount: snapshot.data!.docs.length,
                               itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: EdgeInsets.all(30.sp),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                            height: 80.sp,
-                                            width: 80.sp,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: NetworkImage(snapshot.data!
-                                                  .docs[index]["image"][0]),
-                                            )),
-                                          ),
-                                          SizedBox(
-                                            width: 10.sp,
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "Order ID: ${snapshot.data!.docs[index].reference.id.toString()}",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 18.sp),
-                                                ),
-                                                Text(
-                                                  "Track Your Order",
-                                                  style: TextStyle(
-                                                      color: Color.fromARGB(
-                                                          255, 100, 121, 138),
-                                                      fontSize: 16.sp),
-                                                )
-                                              ],
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Process(
+                                                OrderID: snapshot.data!
+                                                    .docs[index]["orderId"],
+                                                OrderStatus: snapshot.data!
+                                                    .docs[index]["status"])));
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 30.sp, right: 30.sp, top: 10.sp),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              height: 80.sp,
+                                              width: 80.sp,
+                                              decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: NetworkImage(snapshot
+                                                    .data!
+                                                    .docs[index]["image"][0]),
+                                              )),
                                             ),
-                                          ),
-                                          Image.asset(
-                                            AppComponent.rightSite,
-                                            height: 20.sp,
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 5.h,
-                                      ),
-                                      Divider(
-                                        color: Colors.black,
-                                        thickness: 0.3.sp,
-                                      )
-                                    ],
+                                            SizedBox(
+                                              width: 10.sp,
+                                            ),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "Order ID: ${snapshot.data!.docs[index].reference.id.toString()}",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 18.sp),
+                                                  ),
+                                                  Text(
+                                                    "Track Your Order",
+                                                    style: TextStyle(
+                                                        color: Color.fromARGB(
+                                                            255, 100, 121, 138),
+                                                        fontSize: 16.sp),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            SvgPicture.asset(
+                                              AppComponent.rightSite,
+                                              height: 20.sp,
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 5.h,
+                                        ),
+                                        Divider(
+                                          color: Colors.black,
+                                          thickness: 0.3.sp,
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 );
                               },

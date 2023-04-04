@@ -8,7 +8,6 @@ import 'package:generic_medicine/castomWidget/myOrder.dart';
 import 'package:generic_medicine/castomWidget/myPrescription.dart';
 import 'package:generic_medicine/castomWidget/process.dart';
 import 'package:generic_medicine/castomWidget/profile.dart';
-import 'package:generic_medicine/castomWidget/saveInfo.dart';
 import 'package:generic_medicine/castomWidget/widget.dart';
 import 'package:generic_medicine/intro/introScreen.dart';
 import 'package:generic_medicine/intro/logo.dart';
@@ -40,7 +39,7 @@ class MyApp extends StatelessWidget {
             fontFamily: "DMSans",
           ),
           routes: {
-            "/": (context) => Logo(),
+            "/": (context) => Login(),
             AppComponent.loginPage: (context) => Login(),
             AppComponent.singUpPage: (context) => SingUp(),
           },

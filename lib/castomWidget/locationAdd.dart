@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:generic_medicine/castomWidget/BocSaveData.dart';
 import 'package:generic_medicine/castomWidget/appComponent.dart';
 import 'package:generic_medicine/castomWidget/appbar.dart';
 import 'package:generic_medicine/castomWidget/fullButtom.dart';
+import 'package:generic_medicine/castomWidget/widget.dart';
 import 'package:generic_medicine/uploadPrescription.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class LocationAdd extends StatefulWidget {
   const LocationAdd({super.key});
@@ -19,6 +22,7 @@ class _LocationAddState extends State<LocationAdd> {
   bool isSelected1 = true;
   bool isSelected2 = false;
   bool isSelected3 = false;
+  GlobalKey<FormState> _form = GlobalKey<FormState>();
   TextEditingController _pincode = TextEditingController();
   TextEditingController _folorNumber = TextEditingController();
   TextEditingController _recipientName = TextEditingController();
@@ -39,20 +43,26 @@ class _LocationAddState extends State<LocationAdd> {
                 _recipientName.text =
                     value["address"]["recipientName"].toString();
                 _phoneNumber.text = value["address"]["phoneNumber"].toString();
-                if (value["address"]["type"] == "home") {
-                  isSelected1 = true;
-                  isSelected2 = false;
-                  isSelected3 = false;
+                if (value["address"]["type"] == "Home") {
+                  setState(() {
+                    isSelected1 = true;
+                    isSelected2 = false;
+                    isSelected3 = false;
+                  });
                 }
-                if (value["address"]["type"] == "office") {
-                  isSelected1 = false;
-                  isSelected2 = true;
-                  isSelected3 = false;
+                if (value["address"]["type"] == "Office") {
+                  setState(() {
+                    isSelected1 = false;
+                    isSelected2 = true;
+                    isSelected3 = false;
+                  });
                 }
-                if (value["address"]["type"] == "other") {
-                  isSelected1 = false;
-                  isSelected2 = false;
-                  isSelected3 = true;
+                if (value["address"]["type"] == "Other") {
+                  setState(() {
+                    isSelected1 = false;
+                    isSelected2 = false;
+                    isSelected3 = true;
+                  });
                 }
               })
             });
@@ -86,6 +96,7 @@ class _LocationAddState extends State<LocationAdd> {
                   padding: EdgeInsets.fromLTRB(30.h, 30.h, 30.h, 10.h),
                   width: double.infinity,
                   child: Form(
+                    key: _form,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -105,6 +116,11 @@ class _LocationAddState extends State<LocationAdd> {
                               borderSide: BorderSide(color: AppComponent.Green),
                             ),
                           ),
+                          validator: (value) {
+                            if (value == "") {
+                              return "Enter pin code number";
+                            }
+                          },
                         ),
                         SizedBox(
                           height: 20.h,
@@ -124,6 +140,11 @@ class _LocationAddState extends State<LocationAdd> {
                               borderSide: BorderSide(color: AppComponent.Green),
                             ),
                           ),
+                          validator: (value) {
+                            if (value == "") {
+                              return "House number etc...";
+                            }
+                          },
                         ),
                         SizedBox(
                           height: 20.h,
@@ -135,15 +156,20 @@ class _LocationAddState extends State<LocationAdd> {
                               fontSize: 18.sp),
                         ),
                         TextFormField(
-                          controller: _recipientName,
-                          cursorColor: AppComponent.Green,
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                          decoration: InputDecoration(
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: AppComponent.Green),
+                            controller: _recipientName,
+                            cursorColor: AppComponent.Green,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                            decoration: InputDecoration(
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: AppComponent.Green),
+                              ),
                             ),
-                          ),
-                        ),
+                            validator: (value) {
+                              if (value == "") {
+                                return "Enter your Recipient's name";
+                              }
+                            }),
                         SizedBox(
                           height: 20.h,
                         ),
@@ -154,15 +180,23 @@ class _LocationAddState extends State<LocationAdd> {
                               fontSize: 18.sp),
                         ),
                         TextFormField(
-                          controller: _phoneNumber,
-                          cursorColor: AppComponent.Green,
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                          decoration: InputDecoration(
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: AppComponent.Green),
+                            controller: _phoneNumber,
+                            cursorColor: AppComponent.Green,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                            decoration: InputDecoration(
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: AppComponent.Green),
+                              ),
                             ),
-                          ),
-                        ),
+                            validator: (value) {
+                              if (value == "") {
+                                return "Enter Mobile Number";
+                              }
+                              if (value!.length != 10) {
+                                return 'Only 10 digit number valid';
+                              }
+                            }),
                         SizedBox(
                           height: 30.h,
                         ),
@@ -299,7 +333,50 @@ class _LocationAddState extends State<LocationAdd> {
               padding: EdgeInsets.fromLTRB(30.h, 30.h, 30.h, 40.h),
               child: FullButton(
                   title: "Save & Continue",
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (_form.currentState!.validate()) {
+                      bool result =
+                          await InternetConnectionChecker().hasConnection;
+                      if (result == true) {
+                        var isSelectedLocation;
+                        if (isSelected1 == true) {
+                          isSelectedLocation = "Home";
+                        }
+                        if (isSelected2 == true) {
+                          isSelectedLocation = "Office";
+                        }
+                        if (isSelected3 == true) {
+                          isSelectedLocation = "Other";
+                        }
+
+                        var auth =
+                            FirebaseFirestore.instance.collection("allUser");
+                        Map data = {
+                          "folorNumber": _folorNumber.text,
+                          "phoneNumber": _phoneNumber.text,
+                          "pincode": _pincode.text,
+                          "recipientName": _recipientName.text,
+                          "type": isSelectedLocation
+                        };
+
+                        auth.doc(userNumber).set({"address": data},
+                            SetOptions(merge: true)).then((value) {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return BoxSaveData();
+                              });
+                        });
+                        Navigator.pop(context, true);
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return ShowInternetBox();
+                            });
+                      }
+                    }
+                  },
                   mycolors: AppComponent.Green),
             ),
           ),

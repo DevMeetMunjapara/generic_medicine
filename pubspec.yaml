@@ -49,6 +49,7 @@ dependencies:
   firebase_storage: ^11.0.16
   photo_selector: ^0.0.1
   shared_preferences: ^2.0.20
+  timelines: ^0.1.0
 
 
 
