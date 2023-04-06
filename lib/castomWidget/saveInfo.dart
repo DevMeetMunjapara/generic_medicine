@@ -46,6 +46,7 @@ class _SaveInfoState extends State<SaveInfo> {
                 _number.text = value["number"];
                 _email.text = value["email"];
                 _city.text = value["city"];
+                isWhatsapp = value["isWhatsapp"];
                 _country.text = value["country"];
               })
             });
@@ -249,6 +250,7 @@ class _SaveInfoState extends State<SaveInfo> {
                       "number": _number.text,
                       "email": _email.text,
                       "city": _city.text,
+                      "isWhatsapp": isWhatsapp,
                       "country": _country.text,
                     }, SetOptions(merge: true));
                     showDialog(

@@ -408,7 +408,7 @@ class _HowToProcessState extends State<HowToProcess> {
                                   i < widget.myFileNameList.length;
                                   i++) {
                                 final path =
-                                    "${userNumber + "/2023000$totalCount"}/+${widget.myFileNameList[i]}";
+                                    "${userNumber + "/2023000${totalCount + 1}"}/+${widget.myFileNameList[i]}";
                                 final file = File(widget.myList[i]!.path);
                                 final ref =
                                     FirebaseStorage.instance.ref().child(path);
@@ -423,8 +423,8 @@ class _HowToProcessState extends State<HowToProcess> {
                               }
 //all Order Data Set
 
-                              auth.doc("2023000$totalCount").set({
-                                "orderId": "2023000$totalCount",
+                              auth.doc("2023000${totalCount + 1}").set({
+                                "orderId": "2023000${totalCount + 1}",
                                 "time": time.toString(),
                                 "status": "1",
                                 "image": urlFirebaseImage,
@@ -434,9 +434,9 @@ class _HowToProcessState extends State<HowToProcess> {
                                   .collection("allUser")
                                   .doc(userNumber)
                                   .collection("order")
-                                  .doc("2023000$totalCount")
+                                  .doc("2023000${totalCount + 1}")
                                   .set({
-                                "orderId": "2023000$totalCount",
+                                "orderId": "2023000${totalCount + 1}",
                                 "time": time.toString(),
                                 "status": "1",
                                 "image": urlFirebaseImage,
