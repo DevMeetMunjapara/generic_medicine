@@ -56,7 +56,7 @@ class _ProcessState extends State<Process> {
 
   Widget statusOne() {
     return Scaffold(
-      appBar: MyAppBar().myapp(context),
+      appBar: MyAppBar().myappwithLogo(context),
       body: Column(
         children: [
           Container(
@@ -248,6 +248,10 @@ class _ProcessState extends State<Process> {
                     bool result =
                         await InternetConnectionChecker().hasConnection;
                     if (result == true) {
+                      setState(() {
+                        widget.OrderStatus = "3";
+                      });
+
                       await FirebaseFirestore.instance
                           .collection("allOrder")
                           .doc(widget.OrderID)
@@ -277,7 +281,7 @@ class _ProcessState extends State<Process> {
 
   Widget statusTwo() {
     return Scaffold(
-      appBar: MyAppBar().myapp(context),
+      appBar: MyAppBar().myappwithLogo(context),
       body: Column(
         children: [
           Container(
@@ -446,6 +450,9 @@ class _ProcessState extends State<Process> {
                     bool result =
                         await InternetConnectionChecker().hasConnection;
                     if (result == true) {
+                      setState(() {
+                        widget.OrderStatus = "3";
+                      });
                       await FirebaseFirestore.instance
                           .collection("allOrder")
                           .doc(widget.OrderID)
@@ -475,7 +482,7 @@ class _ProcessState extends State<Process> {
 
   Widget statusThree() {
     return Scaffold(
-      appBar: MyAppBar().myapp(context),
+      appBar: MyAppBar().myappwithLogo(context),
       body: Column(
         children: [
           Container(

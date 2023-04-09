@@ -85,25 +85,27 @@ class _LocationAddState extends State<LocationAdd> {
           FocusScope.of(context).requestFocus(new FocusNode());
         },
         child: Scaffold(
-          resizeToAvoidBottomInset: false,
+          // resizeToAvoidBottomInset: false,
           appBar: MyAppBar().myappwithLogo(context),
-          body: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(30.h, 15.h, 30.h, 10.h),
-                child: Text(
-                  "Please add a detailed address. It will help our delivery executive to reach your location easily.",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: Color.fromARGB(255, 139, 88, 27),
-                      fontSize: 16.sp),
+          body: SingleChildScrollView(
+            physics: ClampingScrollPhysics(),
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(30.h, 15.h, 30.h, 10.h),
+                  child: Text(
+                    "Please add a detailed address. It will help our delivery executive to reach your location easily.",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Color.fromARGB(255, 139, 88, 27),
+                        fontSize: 16.sp),
+                  ),
                 ),
-              ),
-              Expanded(
-                child: Container(
+                Container(
                   color: Colors.white,
                   padding: EdgeInsets.fromLTRB(30.h, 30.h, 30.h, 10.h),
                   width: double.infinity,
+                  //height: 0.8.sh,
                   child: Form(
                     key: _form,
                     child: Column(
@@ -327,77 +329,79 @@ class _LocationAddState extends State<LocationAdd> {
                             ),
                           ],
                         ),
+                        SizedBox(
+                          height: 50.h,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          child: FullButton(
+                              title: "Save & Continue",
+                              onPressed: () async {
+                                if (_form.currentState!.validate()) {
+                                  bool result =
+                                      await InternetConnectionChecker()
+                                          .hasConnection;
+                                  if (result == true) {
+                                    var isSelectedLocation;
+                                    if (isSelected1 == true) {
+                                      isSelectedLocation = "Home";
+                                    }
+                                    if (isSelected2 == true) {
+                                      isSelectedLocation = "Office";
+                                    }
+                                    if (isSelected3 == true) {
+                                      isSelectedLocation = "Other";
+                                    }
+
+                                    var auth = FirebaseFirestore.instance
+                                        .collection("allUser");
+                                    Map data = {
+                                      "folorNumber": _folorNumber.text,
+                                      "phoneNumber": _phoneNumber.text,
+                                      "pincode": _pincode.text,
+                                      "recipientName": _recipientName.text,
+                                      "type": isSelectedLocation
+                                    };
+
+                                    auth.doc(userNumber).set({"address": data},
+                                        SetOptions(merge: true)).then((value) {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return BoxSaveData();
+                                          });
+                                    });
+                                    if (widget.isListPasrse == true) {
+                                      print(
+                                          "---------${widget.myFileNameList}");
+                                      print("---------${widget.myList}");
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  HowToProcess(
+                                                      myFileNameList:
+                                                          widget.myFileNameList,
+                                                      myList: widget.myList)));
+                                    } else {
+                                      Navigator.pop(context);
+                                    }
+                                  } else {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return ShowInternetBox();
+                                        });
+                                  }
+                                }
+                              },
+                              mycolors: AppComponent.Green),
+                        ),
                       ],
                     ),
                   ),
                 ),
-              )
-            ],
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: Container(
-            width: double.infinity,
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(30.h, 30.h, 30.h, 40.h),
-              child: FullButton(
-                  title: "Save & Continue",
-                  onPressed: () async {
-                    if (_form.currentState!.validate()) {
-                      bool result =
-                          await InternetConnectionChecker().hasConnection;
-                      if (result == true) {
-                        var isSelectedLocation;
-                        if (isSelected1 == true) {
-                          isSelectedLocation = "Home";
-                        }
-                        if (isSelected2 == true) {
-                          isSelectedLocation = "Office";
-                        }
-                        if (isSelected3 == true) {
-                          isSelectedLocation = "Other";
-                        }
-
-                        var auth =
-                            FirebaseFirestore.instance.collection("allUser");
-                        Map data = {
-                          "folorNumber": _folorNumber.text,
-                          "phoneNumber": _phoneNumber.text,
-                          "pincode": _pincode.text,
-                          "recipientName": _recipientName.text,
-                          "type": isSelectedLocation
-                        };
-
-                        auth.doc(userNumber).set({"address": data},
-                            SetOptions(merge: true)).then((value) {
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return BoxSaveData();
-                              });
-                        });
-                        if (widget.isListPasrse == true) {
-                          print("---------${widget.myFileNameList}");
-                          print("---------${widget.myList}");
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HowToProcess(
-                                      myFileNameList: widget.myFileNameList,
-                                      myList: widget.myList)));
-                        } else {
-                          Navigator.pop(context);
-                        }
-                      } else {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return ShowInternetBox();
-                            });
-                      }
-                    }
-                  },
-                  mycolors: AppComponent.Green),
+              ],
             ),
           ),
         ),

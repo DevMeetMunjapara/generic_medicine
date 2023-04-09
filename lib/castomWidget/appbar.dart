@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -5,9 +6,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:generic_medicine/castomWidget/appComponent.dart';
 import 'package:generic_medicine/castomWidget/profile.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:generic_medicine/uploadPrescription.dart';
 
 class MyAppBar {
-  AppBar myapp(BuildContext context) {
+  AppBar myapp(BuildContext context, bool isImage, String url) {
     return AppBar(
       elevation: 3,
       toolbarHeight: 100.h,
@@ -30,9 +32,19 @@ class MyAppBar {
                         MaterialPageRoute(builder: (context) => Profile()));
                   },
                   child: CircleAvatar(
-                      backgroundColor: AppComponent.White,
-                      radius: 30.h,
-                      child: SvgPicture.asset(AppComponent.user)),
+                    backgroundColor: AppComponent.White,
+                    radius: 30.h,
+                    child: isImage == false
+                        ? SvgPicture.asset(AppComponent.user)
+                        : Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(url),
+                                )),
+                          ),
+                  ),
                 )
               ],
             )),

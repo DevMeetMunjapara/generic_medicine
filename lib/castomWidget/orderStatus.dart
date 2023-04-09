@@ -47,7 +47,6 @@ class _OrderStatusState extends State<OrderStatus> {
         formattedDate = DateFormat('dd/MM/yyyy | ').format(myDate) +
             DateFormat.jm().format(myDate);
         print("-----------------$formattedDate");
-        //  print("-----------------$imageList");
       });
     });
     var userInfo = FirebaseFirestore.instance
@@ -104,7 +103,7 @@ class _OrderStatusState extends State<OrderStatus> {
                 ),
                 Center(
                   child: Container(
-                    color: Colors.amber,
+                    //       color: Colors.amber,
                     height: 250.sp,
                     width: 300.sp,
                     child: ListView.builder(
@@ -220,35 +219,6 @@ class _OrderStatusState extends State<OrderStatus> {
                     )
                   ],
                 ),
-                SizedBox(
-                  height: 30.h,
-                ),
-                FullButton(
-                    title: "Cancel Order",
-                    onPressed: () async {
-                      bool result =
-                          await InternetConnectionChecker().hasConnection;
-                      if (result == true) {
-                        await FirebaseFirestore.instance
-                            .collection("allOrder")
-                            .doc(widget.OrderID)
-                            .set({"status": "3"}, SetOptions(merge: true));
-                        await FirebaseFirestore.instance
-                            .collection("allUser")
-                            .doc(userNumber)
-                            .collection("order")
-                            .doc(widget.OrderID)
-                            .set({"status": "3"}, SetOptions(merge: true));
-                        setState(() {});
-                      } else {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return ShowInternetBox();
-                            });
-                      }
-                    },
-                    mycolors: AppComponent.red)
               ],
             ),
           ),

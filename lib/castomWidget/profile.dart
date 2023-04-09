@@ -1,5 +1,9 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -14,6 +18,7 @@ import 'package:generic_medicine/castomWidget/saveInfo.dart';
 import 'package:generic_medicine/login/login.dart';
 import 'package:generic_medicine/uploadPrescription.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -25,6 +30,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   var _name;
   var _email;
+  var _profileImage;
 
   @override
   void initState() {
@@ -38,12 +44,148 @@ class _ProfileState extends State<Profile> {
               setState(() {
                 _name = value["name"];
                 _email = value["email"];
-              })
+                _profileImage = value["profileImage"];
+              }),
+              print("-----------$_profileImage")
             });
   }
 
   @override
   Widget build(BuildContext context) {
+    List docList = <int>[];
+    List loops = [];
+    var mysnapshot;
+    bool isImageUpdate = false;
+    bool isNewUpload = false;
+
+    if (_profileImage != null) {
+      setState(() {
+        isImageUpdate = true;
+      });
+    } else {}
+
+    showBox() => showModalBottomSheet(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 300.h,
+              padding: EdgeInsets.only(top: 20.h),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 25.h, right: 25.h),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Upload prescription",
+                          style: TextStyle(
+                              fontSize: 22.sp, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: SvgPicture.asset(AppComponent.cancel))
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Divider(
+                    thickness: 1.5.h,
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      final image = await ImagePicker()
+                          .pickImage(source: ImageSource.camera);
+
+                      if (image == null) {
+                        return;
+                      }
+                      final path = "${userNumber}";
+                      final file = File(image.path);
+                      print(file);
+
+                      final ref = FirebaseStorage.instance.ref().child(path);
+
+                      UploadTask uploadTask = ref.putFile(file);
+                      final snapshot = await uploadTask.whenComplete(() {});
+                      final url = await snapshot.ref.getDownloadURL();
+                      await FirebaseFirestore.instance
+                          .collection("allUser")
+                          .doc(userNumber)
+                          .set({"profileImage": url.toString()},
+                              SetOptions(merge: true));
+                      setState(() {
+                        isImageUpdate = true;
+                      });
+
+                      print("---------$url");
+
+                      Navigator.pop(context);
+                      var userInfo = FirebaseFirestore.instance
+                          .collection("allUser")
+                          .doc(userNumber)
+                          .get()
+                          .then((value) => {
+                                setState(() {
+                                  _name = value["name"];
+                                  _email = value["email"];
+                                  _profileImage = value["profileImage"];
+                                }),
+                                print("-----------$_profileImage")
+                              });
+                    },
+                    child: showOption(AppComponent.photo, "Take a photo"),
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      final image = await ImagePicker()
+                          .pickImage(source: ImageSource.gallery);
+                      if (image == null) {
+                        return;
+                      }
+                      String fileName = image.path.split('/').last;
+                      final temporyImage = File(image.path);
+
+                      Navigator.pop(context);
+                    },
+                    child:
+                        showOption(AppComponent.gallery, "Choose from gallery"),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+
+    mysnapshot = FirebaseFirestore.instance
+        .collection("allUser")
+        .doc(userNumber)
+        .collection("order")
+        .get()
+        .then((value) {
+      for (var i = 0; i < value.size; i++) {
+        docList.add(int.parse(value.docs[i].id));
+        // print("----------${value.docs[i].id}");
+        // print("----------${value.docs[i]["time"]}");
+
+        //  print(docList[i].runtimeType);
+      }
+      docList.sort();
+      for (var i = docList.length - 1; i >= 0; i--) {
+        loops.add(docList[i]);
+        print(loops);
+      }
+    });
     return SafeArea(
       child: Scaffold(
         appBar: MyAppBar().myappWithTitel(context, "My Account setting"),
@@ -59,8 +201,24 @@ class _ProfileState extends State<Profile> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SvgPicture.asset(
-                    AppComponent.profile,
+                  GestureDetector(
+                    onTap: () {
+                      showBox();
+                    },
+                    child: CircleAvatar(
+                      backgroundColor: AppComponent.White,
+                      radius: 30.h,
+                      child: isImageUpdate == false
+                          ? SvgPicture.asset(AppComponent.user)
+                          : Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(_profileImage),
+                                  )),
+                            ),
+                    ),
                   ),
                   SizedBox(
                     height: 5.h,
@@ -119,8 +277,12 @@ class _ProfileState extends State<Profile> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => MyOrder()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MyOrder(
+                                    loops: loops,
+                                  )));
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -132,23 +294,6 @@ class _ProfileState extends State<Profile> {
                         )
                       ],
                     ),
-                  ),
-                  Divider(
-                    thickness: 1.5.sp,
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      box("My Prescriptions",
-                          "View all past prescription photos"),
-                      Icon(
-                        Icons.keyboard_arrow_right,
-                        size: 40.sp,
-                      )
-                    ],
                   ),
                   Divider(
                     thickness: 1.5.sp,
@@ -238,7 +383,7 @@ class _ProfileState extends State<Profile> {
                     style: TextStyle(
                         color: AppComponent.Green,
                         fontWeight: FontWeight.bold,
-                        fontSize: 20.sp),
+                        fontSize: 18.sp),
                   ),
                   SizedBox(
                     height: 5.h,
@@ -263,14 +408,6 @@ class _ProfileState extends State<Profile> {
                         fontSize: 16.sp),
                   ),
                   Text(
-                    "Accessible & Affordable",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 197, 196, 172),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.sp),
-                  ),
-                  const Text(
                     "Made with ❤️ by Generic medicine",
                     textAlign: TextAlign.start,
                   ),
@@ -279,6 +416,27 @@ class _ProfileState extends State<Profile> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget showOption(String image, String title) {
+    return Padding(
+      padding: EdgeInsets.only(left: 25.h, right: 25.h, bottom: 10.h),
+      child: Row(
+        children: [
+          SvgPicture.asset(image),
+          SizedBox(
+            width: 10.h,
+          ),
+          Expanded(
+            child: Text(
+              title,
+              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+            ),
+          ),
+          SvgPicture.asset(AppComponent.arrowRight),
+        ],
       ),
     );
   }

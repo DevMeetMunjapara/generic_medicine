@@ -19,7 +19,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-late String userNumber;
+late String userNumber = "+917016080451";
 
 class UploadPrescription extends StatefulWidget {
   const UploadPrescription({super.key});
@@ -37,22 +37,43 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
   List myList = [];
   List myFileNameList = [];
   PageController _pageController = PageController();
+  var _profileImage;
+  bool isImage = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    userNumber = FirebaseAuth.instance.currentUser!.phoneNumber.toString();
-    print(userNumber);
+    // userNumber = FirebaseAuth.instance.currentUser!.phoneNumber.toString();
+    // print(userNumber);
+
+    var userInfo = FirebaseFirestore.instance
+        .collection("allUser")
+        .doc(userNumber)
+        .get()
+        .then((value) => {
+              setState(() {
+                _profileImage = value["profileImage"];
+                if (_profileImage != null) {
+                  isImage = true;
+                } else {
+                  setState(() {});
+                }
+              }),
+            });
   }
 
   @override
   Widget build(BuildContext context) {
-    print(myList);
-    print(myFileNameList);
+    // print(myList);
+    // print(myFileNameList);
+    // var a = MediaQuery.of(context).size.width;
+    // var b = MediaQuery.of(context).size.height;
+    // print(a);
+    // print(b);
     return SafeArea(
       child: Scaffold(
-        appBar: MyAppBar().myapp(context),
+        appBar: MyAppBar().myapp(context, isImage, _profileImage),
         body: Column(
           children: [
             SizedBox(
@@ -74,7 +95,7 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
                           : "${myList.length} prescription attached",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 24.sp,
+                          fontSize: 22.sp,
                           color: AppComponent.Green),
                     ),
                     SizedBox(
@@ -91,7 +112,11 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
                       height: 20.h,
                     ),
                     isOneUpload == false
-                        ? Center(child: SvgPicture.asset(AppComponent.home))
+                        ? Center(
+                            child: SvgPicture.asset(
+                            AppComponent.home,
+                            height: 200.h,
+                          ))
                         : Center(
                             child: Column(
                               children: [
@@ -230,17 +255,6 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Center(
-                        child: Text(
-                      "How it work?",
-                      style: TextStyle(
-                          fontSize: 18.h,
-                          color: AppComponent.Green,
-                          fontWeight: FontWeight.bold),
-                    ))
                   ],
                 ),
               ),
@@ -286,7 +300,7 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
                         Text(
                           "Doctor Details\nDate of Prescription\nPatient Details\nDosage Details",
                           style: TextStyle(
-                              fontSize: 18.sp,
+                              fontSize: 14.sp,
                               color: AppComponent.Green,
                               fontWeight: FontWeight.bold),
                         ),
@@ -311,7 +325,10 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
       padding: EdgeInsets.only(left: 25.h, right: 25.h, bottom: 10.h),
       child: Row(
         children: [
-          SvgPicture.asset(image),
+          SvgPicture.asset(
+            image,
+            height: 60.h,
+          ),
           SizedBox(
             width: 10.h,
           ),
@@ -321,7 +338,10 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
               style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
             ),
           ),
-          SvgPicture.asset(AppComponent.arrowRight),
+          SvgPicture.asset(
+            AppComponent.arrowRight,
+            height: 20.w,
+          ),
         ],
       ),
     );
@@ -408,16 +428,6 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
                   },
                   child:
                       showOption(AppComponent.gallery, "Choose from gallery"),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MyPrescription()));
-                  },
-                  child: showOption(
-                      AppComponent.prescription, "Your prescription"),
                 ),
               ],
             ),

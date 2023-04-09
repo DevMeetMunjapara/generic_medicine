@@ -12,7 +12,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:insta_image_viewer/insta_image_viewer.dart';
 
 class MyOrder extends StatefulWidget {
-  const MyOrder({super.key});
+  List loops = [];
+  MyOrder({super.key, required this.loops});
 
   @override
   State<MyOrder> createState() => _MyOrderState();
@@ -27,36 +28,11 @@ class _MyOrderState extends State<MyOrder> {
 
   @override
   Widget build(BuildContext context) {
-    List docList = <int>[];
-    List loops = [];
-    QuerySnapshot<Map<String, dynamic>> mydata;
-    var mysnapshot;
-
-    mysnapshot = FirebaseFirestore.instance
-        .collection("allUser")
-        .doc("+919409497905")
-        .collection("order")
-        .get()
-        .then((value) {
-      mydata = value;
-
-      for (var i = 0; i < value.size; i++) {
-        docList.add(int.parse(value.docs[i].id));
-        // print("----------${value.docs[i].id}");
-        // print("----------${value.docs[i]["time"]}");
-
-        //  print(docList[i].runtimeType);
-      }
-      docList.sort();
-      for (var i = docList.length - 1; i >= 0; i--) {
-        loops.add(docList[i]);
-        print(loops);
-      }
-    });
+    print("----------${widget.loops}");
 
     var db = FirebaseFirestore.instance
         .collection("allUser")
-        .doc("+919409497905")
+        .doc(userNumber)
         .collection("order");
 
     return SafeArea(
@@ -93,17 +69,17 @@ class _MyOrderState extends State<MyOrder> {
                             child: ListView.builder(
                               itemCount: snapshot.data!.docs.length,
                               itemBuilder: (context, index) {
-                                for (var i = 0; i <= loops.length; i++) {
-                                  if (loops[index].toString() ==
+                                for (var i = 0; i <= widget.loops.length; i++) {
+                                  if (widget.loops[index].toString() ==
                                       snapshot.data!.docs[i].reference.id) {
-                                    print(loops[index].toString());
-                                    print(loops.length);
+                                    print(widget.loops[index].toString());
+                                    print(widget.loops.length);
                                     return StreamBuilder(
                                       stream: FirebaseFirestore.instance
                                           .collection('allUser')
                                           .doc(userNumber)
                                           .collection("order")
-                                          .doc(loops[index].toString())
+                                          .doc(widget.loops[index].toString())
                                           .snapshots(),
                                       builder: (context, snapshot) {
                                         if (snapshot.connectionState ==
@@ -151,13 +127,11 @@ class _MyOrderState extends State<MyOrder> {
                                                     Container(
                                                       height: 80.sp,
                                                       width: 80.sp,
-                                                      child: InstaImageViewer(
-                                                        child: Image.network(
-                                                          snapshot.data![
-                                                              "image"][0],
-                                                          fit: BoxFit.cover,
-                                                          height: 150.h,
-                                                        ),
+                                                      child: Image.network(
+                                                        snapshot.data!["image"]
+                                                            [0],
+                                                        fit: BoxFit.cover,
+                                                        height: 150.h,
                                                       ),
                                                     ),
                                                     SizedBox(

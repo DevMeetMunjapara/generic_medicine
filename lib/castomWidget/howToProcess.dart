@@ -68,7 +68,7 @@ class _HowToProcessState extends State<HowToProcess> {
     print("---------${widget.myList}");
     return SafeArea(
       child: Scaffold(
-        appBar: MyAppBar().myapp(context),
+        //   appBar: MyAppBar().myapp(context),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -145,7 +145,10 @@ class _HowToProcessState extends State<HowToProcess> {
                             SizedBox(
                               width: 10.sp,
                             ),
-                            SvgPicture.asset(AppComponent.tickmark)
+                            SvgPicture.asset(
+                              AppComponent.tickmark,
+                              height: 50.h,
+                            )
                           ],
                         ),
                       ),
@@ -167,9 +170,10 @@ class _HowToProcessState extends State<HowToProcess> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
+                                Text(
                                   "We will take about",
                                   style: TextStyle(
+                                    fontSize: 16.sp,
                                     color: Color.fromARGB(255, 101, 175, 131),
                                   ),
                                 ),
@@ -179,7 +183,7 @@ class _HowToProcessState extends State<HowToProcess> {
                                       "30 Minutes",
                                       style: TextStyle(
                                           color: Color.fromARGB(255, 8, 97, 62),
-                                          fontSize: 20.sp,
+                                          fontSize: 16.sp,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     SizedBox(
@@ -219,7 +223,7 @@ class _HowToProcessState extends State<HowToProcess> {
                           child: Text(
                             "What will the pharmacist do?",
                             style: TextStyle(
-                                fontSize: 20.sp,
+                                fontSize: 18.sp,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold),
                           )),
@@ -227,7 +231,7 @@ class _HowToProcessState extends State<HowToProcess> {
                         thickness: 1.5.sp,
                       ),
                       Container(
-                        height: 220.h,
+                        height: 240.h,
                         child: PageView(controller: pageController, children: [
                           ConOne(
                               AppComponent.taskOne,
@@ -267,7 +271,9 @@ class _HowToProcessState extends State<HowToProcess> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                          "Total bill amount will be calculated after a case on delivery order is placed for your medicines."),
+                        "Total bill amount will be calculated after a case on delivery order is placed for your medicines.",
+                        style: TextStyle(fontSize: 18.sp),
+                      ),
                       SizedBox(
                         height: 5.sp,
                       ),
@@ -292,7 +298,7 @@ class _HowToProcessState extends State<HowToProcess> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Container(
           color: Colors.white,
-          height: 160.h,
+          height: 190.h,
           width: double.infinity,
           child: Column(
             children: [
@@ -313,7 +319,7 @@ class _HowToProcessState extends State<HowToProcess> {
                               ? Text(
                                   "Add You Address",
                                   style: TextStyle(
-                                    fontSize: 20.sp,
+                                    fontSize: 18.sp,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 )
@@ -321,7 +327,7 @@ class _HowToProcessState extends State<HowToProcess> {
                                   "Delivering to ${_type.text}",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 20.sp),
+                                      fontSize: 18.sp),
                                 ),
                           _folorNumber.text == ""
                               ? SizedBox()
@@ -347,7 +353,7 @@ class _HowToProcessState extends State<HowToProcess> {
                                 ? AppComponent.red
                                 : AppComponent.Green,
                             fontWeight: FontWeight.bold,
-                            fontSize: 20.sp),
+                            fontSize: 18.sp),
                       ),
                     )
                   ],
@@ -449,7 +455,7 @@ class _HowToProcessState extends State<HowToProcess> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => Process(
-                                            OrderID: "2023000$totalCount",
+                                            OrderID: "2023000${totalCount + 1}",
                                             OrderStatus: "1",
                                           )));
                             },
