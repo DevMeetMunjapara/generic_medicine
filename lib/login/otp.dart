@@ -136,6 +136,7 @@ class _OTPState extends State<OTP> {
                                   "email": widget.email,
                                   "number": widget.number,
                                   "country": "India",
+                                  "profileImage": null,
                                 });
                               }
 

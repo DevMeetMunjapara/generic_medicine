@@ -150,12 +150,42 @@ class _ProfileState extends State<Profile> {
                     onTap: () async {
                       final image = await ImagePicker()
                           .pickImage(source: ImageSource.gallery);
+
                       if (image == null) {
                         return;
                       }
-                      String fileName = image.path.split('/').last;
-                      final temporyImage = File(image.path);
+                      final path = "${userNumber}";
+                      final file = File(image.path);
+                      print(file);
 
+                      final ref = FirebaseStorage.instance.ref().child(path);
+
+                      UploadTask uploadTask = ref.putFile(file);
+                      final snapshot = await uploadTask.whenComplete(() {});
+                      final url = await snapshot.ref.getDownloadURL();
+                      await FirebaseFirestore.instance
+                          .collection("allUser")
+                          .doc(userNumber)
+                          .set({"profileImage": url.toString()},
+                              SetOptions(merge: true));
+                      setState(() {
+                        isImageUpdate = true;
+                      });
+
+                      print("---------$url");
+
+                      var userInfo = FirebaseFirestore.instance
+                          .collection("allUser")
+                          .doc(userNumber)
+                          .get()
+                          .then((value) => {
+                                setState(() {
+                                  _name = value["name"];
+                                  _email = value["email"];
+                                  _profileImage = value["profileImage"];
+                                }),
+                                print("-----------$_profileImage")
+                              });
                       Navigator.pop(context);
                     },
                     child:

@@ -19,7 +19,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-late String userNumber = "+917016080451";
+late String userNumber = "+919913772184";
 
 class UploadPrescription extends StatefulWidget {
   const UploadPrescription({super.key});
@@ -37,7 +37,7 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
   List myList = [];
   List myFileNameList = [];
   PageController _pageController = PageController();
-  var _profileImage;
+  var _profileImage = "";
   bool isImage = false;
 
   @override
@@ -54,7 +54,7 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
         .then((value) => {
               setState(() {
                 _profileImage = value["profileImage"];
-                if (_profileImage != null) {
+                if (_profileImage != "") {
                   isImage = true;
                 } else {
                   setState(() {});
@@ -70,7 +70,21 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
     // var a = MediaQuery.of(context).size.width;
     // var b = MediaQuery.of(context).size.height;
     // print(a);
-    // print(b);
+    // print(b);.
+    var userInfo = FirebaseFirestore.instance
+        .collection("allUser")
+        .doc(userNumber)
+        .get()
+        .then((value) => {
+              setState(() {
+                _profileImage = value["profileImage"];
+                if (_profileImage != "") {
+                  isImage = true;
+                } else {
+                  setState(() {});
+                }
+              }),
+            });
     return SafeArea(
       child: Scaffold(
         appBar: MyAppBar().myapp(context, isImage, _profileImage),
