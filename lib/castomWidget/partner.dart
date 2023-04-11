@@ -48,20 +48,34 @@ class _PartnerState extends State<Partner> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.fromLTRB(30.h, 10.h, 30.h, 0.h),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 25.sp,
-                          child: Padding(
-                            padding: const EdgeInsets.all(5),
-                            child: SvgPicture.asset(AppComponent.lineArrow),
-                          )),
-                    ),
-                  ),
+                      padding: EdgeInsets.fromLTRB(30.h, 10.h, 30.h, 0.h),
+                      child: Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 25.sp,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child:
+                                      SvgPicture.asset(AppComponent.lineArrow),
+                                )),
+                          ),
+                          SizedBox(
+                            width: 20.sp,
+                          ),
+                          Text(
+                            "Fill-up all details",
+                            style: TextStyle(
+                                color: AppComponent.NevyBlue,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.sp),
+                          ),
+                        ],
+                      )),
                   SizedBox(
                     height: 10.h,
                   ),

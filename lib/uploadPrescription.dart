@@ -19,7 +19,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-late String userNumber = "+919913772184";
+late String userNumber;
 
 class UploadPrescription extends StatefulWidget {
   const UploadPrescription({super.key});
@@ -44,8 +44,8 @@ class _UploadPrescriptionState extends State<UploadPrescription> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // userNumber = FirebaseAuth.instance.currentUser!.phoneNumber.toString();
-    // print(userNumber);
+    userNumber = FirebaseAuth.instance.currentUser!.phoneNumber.toString();
+    print(userNumber);
 
     var userInfo = FirebaseFirestore.instance
         .collection("allUser")

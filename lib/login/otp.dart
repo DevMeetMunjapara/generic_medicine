@@ -60,18 +60,18 @@ class _OTPState extends State<OTP> {
                     ),
                     SvgPicture.asset(
                       AppComponent.logo,
-                      height: 70.sp,
+                      height: 60.sp,
                     ),
                     SizedBox(
                       height: 20.h,
                     ),
-                    SizedBox(
-                        width: double.infinity,
-                        height: 290.h,
-                        child: SvgPicture.asset(
-                          AppComponent.singUp,
-                          fit: BoxFit.fill,
-                        )),
+                    Expanded(
+                      child: SizedBox(
+                          child: SvgPicture.asset(
+                        AppComponent.singUp,
+                        fit: BoxFit.cover,
+                      )),
+                    ),
                   ],
                 ),
               ),

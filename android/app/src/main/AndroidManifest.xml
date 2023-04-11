@@ -3,7 +3,10 @@
    <application
         android:label="generic_medicine"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/icon">
+        <meta-data
+    android:name="io.flutter.embedding.android.SplashScreenDrawable"
+    android:resource="@drawable/launch_background" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
             fontFamily: "DMSans",
           ),
           routes: {
-            "/": (context) => UploadPrescription(),
+            "/": (context) => Logo(),
             AppComponent.loginPage: (context) => Login(),
             AppComponent.singUpPage: (context) => SingUp(),
           },

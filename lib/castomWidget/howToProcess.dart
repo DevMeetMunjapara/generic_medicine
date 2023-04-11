@@ -414,7 +414,7 @@ class _HowToProcessState extends State<HowToProcess> {
                                   i < widget.myFileNameList.length;
                                   i++) {
                                 final path =
-                                    "${userNumber + "/2023000${totalCount + 1}"}/+${widget.myFileNameList[i]}";
+                                    "${userNumber + "/2023000${totalCount + 1}"}/${i}";
                                 final file = File(widget.myList[i]!.path);
                                 final ref =
                                     FirebaseStorage.instance.ref().child(path);
@@ -435,7 +435,7 @@ class _HowToProcessState extends State<HowToProcess> {
                                 "status": "1",
                                 "image": urlFirebaseImage,
                               });
-//User Data Set
+                              //User Data Set
                               await FirebaseFirestore.instance
                                   .collection("allUser")
                                   .doc(userNumber)

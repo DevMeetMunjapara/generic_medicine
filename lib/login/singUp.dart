@@ -135,18 +135,18 @@ class _SingUpState extends State<SingUp> {
                       ),
                       SvgPicture.asset(
                         AppComponent.logo,
-                        height: 70.sp,
+                        height: 60.sp,
                       ),
                       SizedBox(
-                        height: 20.h,
+                        height: 10.h,
                       ),
-                      SizedBox(
-                          width: double.infinity,
-                          height: 290.h,
-                          child: SvgPicture.asset(
-                            AppComponent.singUp,
-                            fit: BoxFit.fill,
-                          ))
+                      Expanded(
+                        child: SizedBox(
+                            child: SvgPicture.asset(
+                          AppComponent.singUp,
+                          fit: BoxFit.cover,
+                        )),
+                      )
                     ],
                   ),
                 ),
@@ -204,9 +204,12 @@ class _SingUpState extends State<SingUp> {
                                     controller: _name,
                                     keyboardType: TextInputType.name,
                                     cursorColor: AppComponent.Green,
+                                    style: TextStyle(fontSize: 18.sp),
                                     decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 0, horizontal: 20.sp),
                                         hintStyle: TextStyle(
-                                          fontSize: 20.sp,
+                                          fontSize: 18.sp,
                                         ),
                                         hintText: "Enter your Full Name",
                                         enabledBorder: OutlineInputBorder(
@@ -236,9 +239,12 @@ class _SingUpState extends State<SingUp> {
                                     controller: _email,
                                     keyboardType: TextInputType.name,
                                     cursorColor: AppComponent.Green,
+                                    style: TextStyle(fontSize: 18.sp),
                                     decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 0, horizontal: 20.sp),
                                         hintStyle: TextStyle(
-                                          fontSize: 20.sp,
+                                          fontSize: 18.sp,
                                         ),
                                         hintText: "Enter you Email address",
                                         enabledBorder: OutlineInputBorder(
@@ -272,14 +278,15 @@ class _SingUpState extends State<SingUp> {
                                     controller: _number,
                                     keyboardType: TextInputType.number,
                                     cursorColor: AppComponent.Green,
+                                    style: TextStyle(
+                                      fontSize: 18.sp,
+                                    ),
                                     decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 0, horizontal: 20.sp),
                                         prefixIcon: Container(
-                                          padding:
-                                              EdgeInsets.only(bottom: 6.sp),
                                           // color: Colors.amber,
                                           width: 10.w,
-                                          height: 0.sp,
-
                                           child: Center(
                                             child: Text(
                                               "+91",
@@ -291,7 +298,7 @@ class _SingUpState extends State<SingUp> {
                                           ),
                                         ),
                                         hintStyle: TextStyle(
-                                          fontSize: 20.sp,
+                                          fontSize: 18.sp,
                                         ),
                                         hintText:
                                             "Enter 10 digit mobile number",

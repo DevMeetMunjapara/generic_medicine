@@ -49,18 +49,19 @@ class _LoginState extends State<Login> {
                     ),
                     SvgPicture.asset(
                       AppComponent.logo,
-                      height: 70.sp,
+                      height: 60.sp,
                     ),
                     SizedBox(
-                      height: 20.h,
+                      height: 5.h,
                     ),
-                    SizedBox(
-                        width: double.infinity,
-                        height: 390.h,
-                        child: SvgPicture.asset(
-                          AppComponent.login,
-                          fit: BoxFit.fill,
-                        ))
+                    Expanded(
+                      child: SizedBox(
+                          child: SvgPicture.asset(
+                        AppComponent.login,
+                        height: 400,
+                        fit: BoxFit.cover,
+                      )),
+                    )
                   ],
                 ),
               ),
@@ -114,10 +115,13 @@ class _LoginState extends State<Login> {
                             keyboardType: TextInputType.number,
                             controller: mobileNumber,
                             cursorColor: AppComponent.Green,
+                            style: TextStyle(fontSize: 18.sp),
                             decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 20.sp),
                                 prefixIcon: Container(
-                                  //color: Colors.amber,
-                                  width: 10.h,
+                                  // color: Colors.amber,
+                                  width: 10.w,
                                   child: Center(
                                     child: Text(
                                       "+91",
@@ -129,7 +133,7 @@ class _LoginState extends State<Login> {
                                   ),
                                 ),
                                 hintText: "Enter 10 digit mobile number",
-                                hintStyle: TextStyle(fontSize: 20.sp),
+                                hintStyle: TextStyle(fontSize: 16.sp),
                                 enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(4),
                                     borderSide: BorderSide(
