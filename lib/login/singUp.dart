@@ -45,8 +45,8 @@ class _SingUpState extends State<SingUp> {
       if (!allUser.exists) {
         await FirebaseAuth.instance.verifyPhoneNumber(
           phoneNumber: "${"+91" + number}",
-          verificationCompleted: (PhoneAuthCredential credential) {},
-          verificationFailed: (FirebaseAuthException e) {},
+          verificationCompleted: (_) {},
+          verificationFailed: (e) {},
           codeSent: (String verificationId, int? resendToken) {
             Navigator.push(
                 context,
@@ -59,7 +59,9 @@ class _SingUpState extends State<SingUp> {
                           number: number,
                         )));
           },
-          codeAutoRetrievalTimeout: (String verificationId) {},
+          codeAutoRetrievalTimeout: (e) {
+            print(e);
+          },
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -81,18 +83,10 @@ class _SingUpState extends State<SingUp> {
               ),
             )));
         print("SingUp Now");
-        Timer(Duration(milliseconds: 500), () {
-          setState(() {
-            loading = false;
-          });
-        });
-      }
-
-      Timer(Duration(seconds: 2), () {
         setState(() {
           loading = false;
         });
-      });
+      }
     } else {
       // ignore: use_build_context_synchronously
       showDialog(
@@ -329,7 +323,7 @@ class _SingUpState extends State<SingUp> {
                           height: 20.h,
                         ),
                         FullButton(
-                            title: "Sing Up",
+                            title: "Sign Up",
                             loading: loading,
                             onPressed: () {
                               if (_form.currentState!.validate()) {

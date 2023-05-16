@@ -215,18 +215,28 @@ class _PartnerState extends State<Partner> {
                                       setState(() {
                                         loading = true;
                                       });
+
                                       await FirebaseFirestore.instance
                                           .collection("allpartner")
-                                          .doc("+91" + _number.text)
-                                          .set({
-                                        "name": _name.text,
-                                        "number": _number.text,
-                                        "email": _email.text,
-                                        "address": _shop.text,
-                                        "city": _city.text,
-                                        "isWhatsapp": isWhatsapp,
-                                        "country": _country.text,
-                                      }, SetOptions(merge: true));
+                                          .get()
+                                          .then((value) {
+                                        value.size;
+                                        FirebaseFirestore.instance
+                                            .collection("allpartner")
+                                            .doc("000${value.size + 1}")
+                                            .set({
+                                          "name": _name.text,
+                                          "number": _number.text,
+                                          "email": _email.text,
+                                          "address": _shop.text,
+                                          "city": _city.text,
+                                          "isWhatsapp": isWhatsapp,
+                                          "country": _country.text,
+                                          "date": DateTime.now().toString(),
+                                          "readMass": "0",
+                                        }, SetOptions(merge: true));
+                                      });
+
                                       showDialog(
                                           context: context,
                                           builder: (context) {

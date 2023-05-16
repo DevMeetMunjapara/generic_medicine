@@ -222,7 +222,7 @@ class _ProfileState extends State<Profile> {
         body: Column(
           children: [
             SizedBox(
-              height: 20.h,
+              height: 7.h,
             ),
             Container(
               color: Colors.white,
@@ -436,6 +436,14 @@ class _ProfileState extends State<Profile> {
                         color: Color.fromARGB(255, 180, 180, 180),
                         fontWeight: FontWeight.bold,
                         fontSize: 16.sp),
+                  ),
+                  Text(
+                    "Accessible & Affordable",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 197, 196, 172),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.sp),
                   ),
                   Text(
                     "Made with ❤️ by Generic medicine",

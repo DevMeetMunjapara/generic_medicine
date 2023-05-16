@@ -49,6 +49,7 @@ class _BoxSaveDataState extends State<BoxSaveData> {
                       title: "Ok",
                       onPressed: () {
                         Navigator.pop(context);
+                        Navigator.pop(context);
                       },
                       mycolors: AppComponent.Green),
                 )

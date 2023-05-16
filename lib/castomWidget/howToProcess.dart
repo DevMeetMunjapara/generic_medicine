@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -38,8 +39,9 @@ class _HowToProcessState extends State<HowToProcess> {
   TextEditingController _folorNumber = TextEditingController();
   TextEditingController _type = TextEditingController();
   bool loading = false;
-
-  PageController pageController = PageController();
+  late Timer timer;
+  PageController pageController = PageController(initialPage: 0);
+  int currentPage = 0;
 
   @override
   void initState() {
@@ -60,6 +62,24 @@ class _HowToProcessState extends State<HowToProcess> {
                     " ...";
               })
             });
+    timer = Timer.periodic(Duration(seconds: 2), (Timer timer) {
+      if (currentPage < 2) {
+        currentPage++;
+      } else {
+        currentPage = 0;
+      }
+      pageController.animateToPage(
+        currentPage,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -278,7 +298,7 @@ class _HowToProcessState extends State<HowToProcess> {
                         height: 5.sp,
                       ),
                       Text(
-                        "What to pay for the medicines online?",
+                        "Pay Method only Case on delivery.",
                         style: TextStyle(
                             color: Color.fromARGB(255, 57, 149, 113),
                             decoration: TextDecoration.underline,
@@ -428,11 +448,17 @@ class _HowToProcessState extends State<HowToProcess> {
                                 print(urlFirebaseImage);
                               }
 //all Order Data Set
+                              String phoneNumber = userNumber;
+                              String phoneNumberWithoutPrefix =
+                                  phoneNumber.replaceAll("+91", "");
+                              print(
+                                  phoneNumberWithoutPrefix); // Output: 9913772184
 
                               auth.doc("2023000${totalCount + 1}").set({
                                 "orderId": "2023000${totalCount + 1}",
                                 "time": time.toString(),
                                 "status": "1",
+                                "number": phoneNumberWithoutPrefix,
                                 "image": urlFirebaseImage,
                               });
                               //User Data Set
@@ -445,6 +471,7 @@ class _HowToProcessState extends State<HowToProcess> {
                                 "orderId": "2023000${totalCount + 1}",
                                 "time": time.toString(),
                                 "status": "1",
+                                "number": phoneNumberWithoutPrefix,
                                 "image": urlFirebaseImage,
                               });
                               setState(() {

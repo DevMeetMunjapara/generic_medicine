@@ -48,7 +48,7 @@ class _ProcessState extends State<Process> {
       child: GestureDetector(
           child: widget.OrderStatus == "1"
               ? statusOne()
-              : widget.OrderStatus == "2"
+              : widget.OrderStatus == "2" || widget.OrderStatus == "4"
                   ? statusTwo()
                   : statusThree()),
     );
@@ -255,13 +255,15 @@ class _ProcessState extends State<Process> {
                       await FirebaseFirestore.instance
                           .collection("allOrder")
                           .doc(widget.OrderID)
-                          .set({"status": "3"}, SetOptions(merge: true));
+                          .set({"status": "3", "cancelBy": "Customer"},
+                              SetOptions(merge: true));
                       await FirebaseFirestore.instance
                           .collection("allUser")
                           .doc(userNumber)
                           .collection("order")
                           .doc(widget.OrderID)
-                          .set({"status": "3"}, SetOptions(merge: true));
+                          .set({"status": "3", "cancelBy": "Customer"},
+                              SetOptions(merge: true));
                       setState(() {});
                     } else {
                       showDialog(
@@ -442,38 +444,40 @@ class _ProcessState extends State<Process> {
             SizedBox(
               height: 5.sp,
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(20.h, 5.h, 20.h, 0.h),
-              child: FullButton(
-                  title: "Cancel Order",
-                  onPressed: () async {
-                    bool result =
-                        await InternetConnectionChecker().hasConnection;
-                    if (result == true) {
-                      setState(() {
-                        widget.OrderStatus = "3";
-                      });
-                      await FirebaseFirestore.instance
-                          .collection("allOrder")
-                          .doc(widget.OrderID)
-                          .set({"status": "3"}, SetOptions(merge: true));
-                      await FirebaseFirestore.instance
-                          .collection("allUser")
-                          .doc(userNumber)
-                          .collection("order")
-                          .doc(widget.OrderID)
-                          .set({"status": "3"}, SetOptions(merge: true));
-                      setState(() {});
-                    } else {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return ShowInternetBox();
-                          });
-                    }
-                  },
-                  mycolors: AppComponent.red),
-            )
+            widget.OrderStatus == "4"
+                ? SizedBox.shrink()
+                : Padding(
+                    padding: EdgeInsets.fromLTRB(20.h, 5.h, 20.h, 0.h),
+                    child: FullButton(
+                        title: "Cancel Order",
+                        onPressed: () async {
+                          bool result =
+                              await InternetConnectionChecker().hasConnection;
+                          if (result == true) {
+                            setState(() {
+                              widget.OrderStatus = "3";
+                            });
+                            await FirebaseFirestore.instance
+                                .collection("allOrder")
+                                .doc(widget.OrderID)
+                                .set({"status": "3"}, SetOptions(merge: true));
+                            await FirebaseFirestore.instance
+                                .collection("allUser")
+                                .doc(userNumber)
+                                .collection("order")
+                                .doc(widget.OrderID)
+                                .set({"status": "3"}, SetOptions(merge: true));
+                            setState(() {});
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return ShowInternetBox();
+                                });
+                          }
+                        },
+                        mycolors: AppComponent.red),
+                  )
           ],
         ),
       ),

@@ -28,6 +28,7 @@ class _OrderStatusState extends State<OrderStatus> {
   var date;
   String? formattedDate;
   List imageList = [];
+  String? status;
   TextEditingController _folorNumber = TextEditingController();
   TextEditingController _type = TextEditingController();
   @override
@@ -42,6 +43,7 @@ class _OrderStatusState extends State<OrderStatus> {
       setState(() {
         date = value["time"];
         imageList = value["image"];
+        status = value["status"];
         print("------------$date");
         DateTime myDate = DateTime.parse(date);
         formattedDate = DateFormat('dd/MM/yyyy | ').format(myDate) +
@@ -49,6 +51,7 @@ class _OrderStatusState extends State<OrderStatus> {
         print("-----------------$formattedDate");
       });
     });
+
     var userInfo = FirebaseFirestore.instance
         .collection("allUser")
         .doc(userNumber)
@@ -67,7 +70,7 @@ class _OrderStatusState extends State<OrderStatus> {
 
   @override
   Widget build(BuildContext context) {
-    print("-------------------$imageList");
+    print("-------------------$status");
     return SafeArea(
       child: Scaffold(
         appBar: MyAppBar().myappWithTitel(context, "My Orders"),
@@ -170,7 +173,11 @@ class _OrderStatusState extends State<OrderStatus> {
                         lineHeight: 10.0.h,
                         padding: EdgeInsets.all(0),
                         animationDuration: 2500,
-                        percent: 0.1,
+                        percent: status == "2"
+                            ? 0.5
+                            : status == "4"
+                                ? 1.00
+                                : 0,
                         barRadius: Radius.circular(15),
                         backgroundColor: Color.fromARGB(255, 218, 255, 240),
                         progressColor: AppComponent.Green,
