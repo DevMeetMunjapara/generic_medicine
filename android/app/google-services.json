@@ -14,6 +14,72 @@
       },
       "oauth_client": [
         {
+          "client_id": "249647555615-8kt2r76fvflru7ukc56tbcnqu7f0p77k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.generic_medicine",
+            "certificate_hash": "cde6c0b36466c5c8cd91a7f45ecfb867a0cc17dd"
+          }
+        },
+        {
+          "client_id": "249647555615-g5tgm4derdislics1cg533jnp76lvjgs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6Ue86PezYuOSYW3BUokP9UFOqGUH2pXE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "249647555615-g5tgm4derdislics1cg533jnp76lvjgs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:249647555615:android:9c31bf721c4c7e563f212a",
+        "android_client_info": {
+          "package_name": "com.example.generic_medicine_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "249647555615-g5tgm4derdislics1cg533jnp76lvjgs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6Ue86PezYuOSYW3BUokP9UFOqGUH2pXE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "249647555615-g5tgm4derdislics1cg533jnp76lvjgs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:249647555615:android:573a927ef9d8041d3f212a",
+        "android_client_info": {
+          "package_name": "com.hevonk.generic_medicine"
+        }
+      },
+      "oauth_client": [
+        {
           "client_id": "249647555615-g5tgm4derdislics1cg533jnp76lvjgs.apps.googleusercontent.com",
           "client_type": 3
         }

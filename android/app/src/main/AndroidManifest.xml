@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.generic_medicine">
+    package="com.hevonk.generic_medicine">
    <application
         android:label="generic_medicine"
         android:name="${applicationName}"

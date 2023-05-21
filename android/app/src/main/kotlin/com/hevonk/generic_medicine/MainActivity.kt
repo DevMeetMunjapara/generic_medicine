@@ -1,4 +1,4 @@
-package com.example.generic_medicine
+package com.hevonk.generic_medicine
 
 import io.flutter.embedding.android.FlutterActivity
 
